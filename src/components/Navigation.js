@@ -61,7 +61,7 @@ const Navigation = () => {
       id: 5,
       title: '合作廠商',
       subItems: [
-        { id: 1, title: 'TAIWANIZE 品牌服飾', path: '/activities/partners/taiwanize' },
+        { id: 1, title: 'TAIWANIZE UNDERWEAR', path: '/activities/partners/taiwanize' },
         { id: 2, title: 'BLACK SAFARI & NIKE Collaborative gym wear', path: '/activities/partners/nike' },
         { id: 3, title: 'BLACK SAFARI & Under Armour Collaborative gym wear', path: '/activities/partners/ua' }
       ]
