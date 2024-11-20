@@ -61,9 +61,26 @@ const Navigation = () => {
       id: 5,
       title: '合作廠商',
       subItems: [
-        { id: 1, title: 'TAIWANIZE UNDERWEAR', path: '/activities/partners/taiwanize' },
-        { id: 2, title: 'BLACK SAFARI & NIKE Collaborative gym wear', path: '/activities/partners/nike' },
-        { id: 3, title: 'BLACK SAFARI & Under Armour Collaborative gym wear', path: '/activities/partners/ua' }
+        { 
+          id: 1, 
+          title: 'TAIWANIZE UNDERWEAR', 
+          externalLink: 'https://www.taiwanize.com/pages/taiwanize-underwear'
+        },
+        { 
+          id: 2, 
+          title: '9monsters', 
+          externalLink: 'https://ninemonsters.com/'
+        },
+        { 
+          id: 3, 
+          title: 'BLACK SAFARI & NIKE Collaborative gym wear', 
+          path: '/activities/partners/nike' 
+        },
+        { 
+          id: 4, 
+          title: 'BLACK SAFARI & Under Armour Collaborative gym wear', 
+          path: '/activities/partners/ua' 
+        }
       ]
     },
     {
@@ -124,19 +141,38 @@ const Navigation = () => {
                 {expandedMenuId === item.id && item.subItems && (
                   <div className="bg-black/20">
                     {item.subItems.map(subItem => (
-                      <button
-                        key={subItem.id}
-                        onClick={() => {
-                          router.push(subItem.path);
-                          if (isMobile) {
-                            setIsMobileMenuOpen(false);
-                          }
-                        }}
-                        className={`w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm
-                          ${pathname === subItem.path ? 'bg-white/20 font-bold' : ''}`}
-                      >
-                        {subItem.title}
-                      </button>
+                      subItem.externalLink ? (
+                        // 外部連結
+                        <a
+                          key={subItem.id}
+                          href={subItem.externalLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`block w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm`}
+                          onClick={() => {
+                            if (isMobile) {
+                              setIsMobileMenuOpen(false);
+                            }
+                          }}
+                        >
+                          {subItem.title}
+                        </a>
+                      ) : (
+                        // 內部頁面連結
+                        <button
+                          key={subItem.id}
+                          onClick={() => {
+                            router.push(subItem.path);
+                            if (isMobile) {
+                              setIsMobileMenuOpen(false);
+                            }
+                          }}
+                          className={`w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm
+                            ${pathname === subItem.path ? 'bg-white/20 font-bold' : ''}`}
+                        >
+                          {subItem.title}
+                        </button>
+                      )
                     ))}
                   </div>
                 )}
@@ -147,11 +183,11 @@ const Navigation = () => {
 
         {/* QR Code 區域 */}
         <div className="p-4 border-t border-white/20">
-          <div className="text-white text-sm mb-3">Follow Us:</div>
+          <div className="text-white text-sm mb-3">關注我們的社群媒體</div>
           <div className="grid grid-cols-2 gap-4">
             {/* X（Twitter）QR Code */}
             <a 
-              href="https://x.com/blacksafari2024" 
+              href="https://twitter.com/your-account" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-center hover:opacity-80 transition duration-300"
@@ -167,14 +203,14 @@ const Navigation = () => {
             </a>
             {/* Instagram QR Code */}
             <a 
-              href="https://instagram.com/blacksafari_tokyo" 
+              href="https://instagram.com/your-account" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-center hover:opacity-80 transition duration-300"
             >
               <div className="bg-white p-2 rounded-lg mb-1 hover:shadow-lg transition duration-300">
                 <img 
-                  src="/images/instagram-qr.jpg" 
+                  src="/images/instagram-qr.png" 
                   alt="Follow us on Instagram" 
                   className="w-full h-auto"
                 />
