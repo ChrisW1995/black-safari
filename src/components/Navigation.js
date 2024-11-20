@@ -107,7 +107,8 @@ const Navigation = () => {
       {/* 側邊選單 */}
       <aside className={`
         ${isMobile ? 'fixed' : 'relative'} 
-        w-64 h-screen z-30 backdrop-blur-sm flex flex-col
+        w-64 h-screen z-30 flex flex-col
+        ${isMobile ? 'bg-black' : 'backdrop-blur-sm'}
         ${isMobile ? (isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full') : 'translate-x-0'}
         transition-transform duration-200 ease-in-out
       `}>
@@ -131,15 +132,17 @@ const Navigation = () => {
                       }
                     }
                   }}
-                  className={`w-full text-left py-2 pl-4 hover:bg-white/10 text-white/90
-                    ${pathname.includes(item.path) ? 'bg-white/20 font-bold' : ''}`}
+                  className={`w-full text-left py-2 pl-4 text-white/90
+                    ${isMobile ? 'hover:bg-gray-800' : 'hover:bg-white/10'}
+                    ${pathname.includes(item.path) ? (isMobile ? 'bg-gray-800' : 'bg-white/20') : ''} 
+                    font-medium`}
                 >
                   {item.title}
                 </button>
 
                 {/* 子選單項目 */}
                 {expandedMenuId === item.id && item.subItems && (
-                  <div className="bg-black/20">
+                  <div className={isMobile ? 'bg-gray-900' : 'bg-black/20'}>
                     {item.subItems.map(subItem => (
                       subItem.externalLink ? (
                         // 外部連結
@@ -148,7 +151,8 @@ const Navigation = () => {
                           href={subItem.externalLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`block w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm`}
+                          className={`block w-full text-left py-2 pl-8 text-white/90 text-sm
+                            ${isMobile ? 'hover:bg-gray-800' : 'hover:bg-white/10'}`}
                           onClick={() => {
                             if (isMobile) {
                               setIsMobileMenuOpen(false);
@@ -167,8 +171,9 @@ const Navigation = () => {
                               setIsMobileMenuOpen(false);
                             }
                           }}
-                          className={`w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm
-                            ${pathname === subItem.path ? 'bg-white/20 font-bold' : ''}`}
+                          className={`w-full text-left py-2 pl-8 text-white/90 text-sm
+                            ${isMobile ? 'hover:bg-gray-800' : 'hover:bg-white/10'}
+                            ${pathname === subItem.path ? (isMobile ? 'bg-gray-800' : 'bg-white/20') : ''}`}
                         >
                           {subItem.title}
                         </button>
@@ -210,7 +215,7 @@ const Navigation = () => {
             >
               <div className="bg-white p-2 rounded-lg mb-1 hover:shadow-lg transition duration-300">
                 <img 
-                  src="/images/instagram-qr.png" 
+                  src="/images/instagram-qr.jpg" 
                   alt="Follow us on Instagram" 
                   className="w-full h-auto"
                 />
