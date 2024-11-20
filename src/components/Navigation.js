@@ -90,57 +90,99 @@ const Navigation = () => {
       {/* 側邊選單 */}
       <aside className={`
         ${isMobile ? 'fixed' : 'relative'} 
-        w-64 h-screen z-30 backdrop-blur-sm
+        w-64 h-screen z-30 backdrop-blur-sm flex flex-col
         ${isMobile ? (isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full') : 'translate-x-0'}
         transition-transform duration-200 ease-in-out
       `}>
-        <div className="p-4 border-b border-white/20">
-          <h1 className="text-xl font-bold text-white">BLACK SAFARI</h1>
-        </div>
-        <nav className="overflow-y-auto h-[calc(100vh-64px)] px-2">
-          {menuItems.map(item => (
-            <div key={item.id}>
-              {/* 主選單項目 */}
-              <button
-                onClick={() => {
-                  if (item.subItems?.length > 0) {
-                    setExpandedMenuId(expandedMenuId === item.id ? null : item.id);
-                  } else if (item.path) {
-                    router.push(item.path);
-                    if (isMobile) {
-                      setIsMobileMenuOpen(false);
+        {/* 主選單區域 */}
+        <div className="flex-1 overflow-hidden flex flex-col">
+          <div className="p-4 border-b border-white/20">
+            <h1 className="text-xl font-bold text-white">BLACK SAFARI</h1>
+          </div>
+          <nav className="flex-1 overflow-y-auto px-2">
+            {menuItems.map(item => (
+              <div key={item.id}>
+                {/* 主選單項目 */}
+                <button
+                  onClick={() => {
+                    if (item.subItems?.length > 0) {
+                      setExpandedMenuId(expandedMenuId === item.id ? null : item.id);
+                    } else if (item.path) {
+                      router.push(item.path);
+                      if (isMobile) {
+                        setIsMobileMenuOpen(false);
+                      }
                     }
-                  }
-                }}
-                className={`w-full text-left py-2 pl-4 hover:bg-white/10 text-white/90
-                  ${pathname.includes(item.path) ? 'bg-white/20 font-bold' : ''}`}
-              >
-                {item.title}
-              </button>
+                  }}
+                  className={`w-full text-left py-2 pl-4 hover:bg-white/10 text-white/90
+                    ${pathname.includes(item.path) ? 'bg-white/20 font-bold' : ''}`}
+                >
+                  {item.title}
+                </button>
 
-              {/* 子選單項目 */}
-              {expandedMenuId === item.id && item.subItems && (
-                <div className="bg-black/20">
-                  {item.subItems.map(subItem => (
-                    <button
-                      key={subItem.id}
-                      onClick={() => {
-                        router.push(subItem.path);
-                        if (isMobile) {
-                          setIsMobileMenuOpen(false);
-                        }
-                      }}
-                      className={`w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm
-                        ${pathname === subItem.path ? 'bg-white/20 font-bold' : ''}`}
-                    >
-                      {subItem.title}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
+                {/* 子選單項目 */}
+                {expandedMenuId === item.id && item.subItems && (
+                  <div className="bg-black/20">
+                    {item.subItems.map(subItem => (
+                      <button
+                        key={subItem.id}
+                        onClick={() => {
+                          router.push(subItem.path);
+                          if (isMobile) {
+                            setIsMobileMenuOpen(false);
+                          }
+                        }}
+                        className={`w-full text-left py-2 pl-8 hover:bg-white/10 text-white/90 text-sm
+                          ${pathname === subItem.path ? 'bg-white/20 font-bold' : ''}`}
+                      >
+                        {subItem.title}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        {/* QR Code 區域 */}
+        <div className="p-4 border-t border-white/20">
+          <div className="text-white text-sm mb-3">Follow Us:</div>
+          <div className="grid grid-cols-2 gap-4">
+            {/* X（Twitter）QR Code */}
+            <a 
+              href="https://x.com/blacksafari2024" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-center hover:opacity-80 transition duration-300"
+            >
+              <div className="bg-white p-2 rounded-lg mb-1 hover:shadow-lg transition duration-300">
+                <img 
+                  src="/images/x-qr.png" 
+                  alt="Follow us on X" 
+                  className="w-full h-auto"
+                />
+              </div>
+              <span className="text-white text-xs">X</span>
+            </a>
+            {/* Instagram QR Code */}
+            <a 
+              href="https://instagram.com/blacksafari_tokyo" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-center hover:opacity-80 transition duration-300"
+            >
+              <div className="bg-white p-2 rounded-lg mb-1 hover:shadow-lg transition duration-300">
+                <img 
+                  src="/images/instagram-qr.jpg" 
+                  alt="Follow us on Instagram" 
+                  className="w-full h-auto"
+                />
+              </div>
+              <span className="text-white text-xs">Instagram</span>
+            </a>
+          </div>
+        </div>
       </aside>
     </>
   );
