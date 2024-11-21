@@ -97,35 +97,14 @@ export default function HomePage() {
       {showVideo && <VideoIntro onClose={handleVideoEnd} />}
       
       <div className="max-w-4xl mx-auto py-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-6">BLACK SAFARI</h1>
-        <p className="text-lg text-gray-600 leading-relaxed mb-8">
-          ...
-        </p>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4"></h2>
-            <p className="text-gray-600 mb-6">
-              ...
-            </p>
-            <button 
-              onClick={() => router.push('/activities/events')}
-              className="px-6 py-2 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition duration-300"
-            >
-              ---
-            </button>
-          </div>
-          
-          <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4"></h2>
-            <p className="text-gray-600 mb-6">
-              ...
-            </p>
-            <button 
-              onClick={() => router.push('/activities/intro')}
-              className="px-6 py-2 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition duration-300"
-            >
-              ---
-            </button>
+        <h1 className="text-4xl font-bold text-white-800 mb-6 text-center">BLACK SAFARI EVENTS ON 2024.12.21</h1>
+        <div className="mb-12">
+          <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden">
+            <img 
+              src="/images/1221_poster.jpg" 
+              alt="BLACK SAFARI Event" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>

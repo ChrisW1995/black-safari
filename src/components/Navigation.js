@@ -73,11 +73,16 @@ const Navigation = () => {
         },
         { 
           id: 3, 
+          title: 'Rainbow Events', 
+          externalLink: 'https://www.rbwevents.com/'
+        },
+        { 
+          id: 4, 
           title: 'BLACK SAFARI & NIKE Collaborative gym wear', 
           path: '/activities/partners/nike' 
         },
         { 
-          id: 4, 
+          id: 5, 
           title: 'BLACK SAFARI & Under Armour Collaborative gym wear', 
           path: '/activities/partners/ua' 
         }
@@ -187,7 +192,10 @@ const Navigation = () => {
         </div>
 
         {/* QR Code 區域 */}
-        <div className="p-4 border-t border-white/20">
+        <div className={`
+            p-4 border-t border-white/20
+            ${isMobile ? 'mb-[100px]' : ''} // 在手機版時增加底部間距，避免被工具列遮擋
+        `}>
           <div className="text-white text-sm mb-3">關注我們的社群媒體</div>
           <div className="grid grid-cols-2 gap-4">
             {/* X（Twitter）QR Code */}
