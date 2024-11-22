@@ -77,9 +77,24 @@ const Navigation = () => {
           externalLink: 'https://ninemonsters.com/'
         },
         { 
-            id: 'partner-3', 
-            title: 'RainbowEvents', 
-            externalLink: 'https://www.rbwevents.com/'
+          id: 'partner-3', 
+          title: 'RainbowEvents', 
+          externalLink: 'https://www.rbwevents.com/'
+        },
+        {
+          id: 'partner-6',
+          title: 'AiSOTOPE',
+          externalLink: 'https://aisotope-lounge.net/'
+        },
+        {
+          id: 'partner-7',  
+          title: 'AiiRO CAFE',
+          externalLink: 'https://aliving.net/'
+        },
+        {
+          id: 'partner-8',
+          title: 'ALAMAS CAFE',  
+          externalLink: 'https://alamas-cafe.net/'
         },
         { 
           id: 'partner-4', 
