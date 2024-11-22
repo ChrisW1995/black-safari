@@ -1,96 +1,176 @@
-export default function IntroPage() {
-    return (
-      <div className="space-y-8">
-        {/* 主視覺圖片 */}
-        <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
-          <img 
-            src="/api/placeholder/1920/1080" 
-            alt="BLACK SAFARI Event"
-            className="w-full h-full object-cover"
-          />
-        </div>
-  
-        {/* 活動標題和簡介 */}
-        <div className="space-y-4">
-          <h3 className="text-3xl font-bold text-gray-800">BLACK SAFARI</h3>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            BLACK SAFARI 是一個結合運動、娛樂和社交的創新活動平台。我們致力於打造一個充滿活力和創意的社群，
-            讓每個參與者都能在這裡找到屬於自己的精彩時刻。
-          </p>
-        </div>
-  
-        {/* 活動特色 */}
-        <div className="space-y-6">
-          <h4 className="text-2xl font-semibold text-gray-800">活動特色</h4>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h5 className="text-xl font-semibold text-gray-800 mb-3">專業運動課程</h5>
-              <p className="text-gray-600">
-                由專業教練帶領，提供多樣化的運動課程，適合不同程度的參與者。
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h5 className="text-xl font-semibold text-gray-800 mb-3">社交互動</h5>
-              <p className="text-gray-600">
-                創造輕鬆愉快的社交環境，讓參與者能夠在運動中建立新的友誼。
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h5 className="text-xl font-semibold text-gray-800 mb-3">品牌合作</h5>
-              <p className="text-gray-600">
-                與知名運動品牌合作，提供優質的運動裝備和專業建議。
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              <h5 className="text-xl font-semibold text-gray-800 mb-3">特別活動</h5>
-              <p className="text-gray-600">
-                定期舉辦特別活動，包括戶外探險、主題派對等精彩內容。
-              </p>
+'use client';
+import { useState, useEffect } from 'react';
+
+export default function DateEvolutionPage() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  return (
+    <div className={`
+      min-h-screen
+      ${isMobile ? 'w-screen px-4' : 'max-w-[calc(100vw-280px)] ml-4 p-4'}
+    `}>
+      <div className="bg-black/90 backdrop-blur-sm rounded-lg p-4 md:p-6 shadow-lg">
+        {/* 標題 */}
+        <h1 className={`
+          font-bold text-white mb-6 text-center
+          ${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'}
+        `}>
+          BLACK SAFARI EVENTS ON 2024.12.21
+        </h1>
+
+        {/* 圖片橫向滾動區域 */}
+        <div className="mb-8">
+          <div className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-4">
+              {[1, 2, 3, 4, 5, 6].map((index) => (
+                <div 
+                  key={index} 
+                  style={{
+                    width: isMobile ? 'calc(100vw - 32px)' : '260px'
+                  }}
+                  className="flex-shrink-0"
+                >
+                  <div className="aspect-[3/4] rounded-lg overflow-hidden">
+                    <img
+                      src={`/images/evolution-${index}.jpg`}
+                      alt={`Event Image ${index}`}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-  
-        {/* 活動資訊 */}
-        <div className="space-y-6">
-          <h4 className="text-2xl font-semibold text-gray-800">活動資訊</h4>
-          <div className="bg-gray-50 p-6 rounded-lg space-y-4">
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">活動地點</div>
-              <div className="text-gray-600">台北市信義區信義路五段7號</div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">活動時間</div>
-              <div className="text-gray-600">每週六、日 14:00-18:00</div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">參加對象</div>
-              <div className="text-gray-600">對運動有興趣的所有人士</div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">費用</div>
-              <div className="text-gray-600">依據不同課程和活動方案而定</div>
+
+        {/* 活動介紹 */}
+        <div className="space-y-6 text-white">
+          {/* Event Description */}
+          <div className="bg-white/10 p-4 md:p-6 rounded-lg space-y-4">
+            <h2 className="text-xl md:text-2xl font-semibold">2024.12.21(SAT) BLACK SAFARI IN EVOLUTION</h2>
+            <p className="text-gray-200">For the last show of 2024, we have the best show yet! This time, there will be 6 shows!</p>
+            
+            <div className="space-y-4 mt-4">
+              <div>
+                <h3 className="text-lg md:text-xl font-semibold">DJ Red and White Battle SHOW</h3>
+                <p className="text-gray-200">Six top DJs will be divided into red and white groups to battle it out with three different sounds!</p>
+                <p className="text-gray-300">[Theme] Vocal Circuit House, Tribal Circuit House, Dark Circuit House</p>
+              </div>
+
+              <div className="space-y-4">
+                {['☆ GOGO has evolved! A new GOGO SHOW is here! On the enchanted floor, GOGOs will fuse their souls into spirit and phantom Beasts, and appear in the form of transformed warriors!',
+                  '☆ GOGO vs. GOGO Dance Battle SHOW!',
+                  '☆ Erotic Bed SHOW!',
+                  '☆ Taipei Pride Parade (Taipei Ximending International Cultural Festival) GOGO Dance SHOW!',
+                  '☆ Erotic GOGO SHOW! From Underwear to stripping them completely: Flag SHOW!'
+                ].map((show, index) => (
+                  <div key={index} className="border-l-2 border-gray-500 pl-4">
+                    <p className="text-gray-200">{show}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Cast Information */}
+              <div className="space-y-6 mt-6">
+                <div>
+                  <h3 className="text-lg md:text-xl font-semibold mb-3">DJs</h3>
+                  <div className="space-y-2">
+                    <p className="text-gray-200">Red group: SHINKAWA, DAI, KAZbou</p>
+                    <p className="text-gray-200">White group: CHU*, YUME, TOMO</p>
+                    <p className="text-gray-200">TAIWAN SPECIAL DJ: KAI</p>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-semibold mb-3">GOGO BOY CAST</h3>
+                  <div className="space-y-2">
+                    <p className="text-gray-200">Spirit Beast Team:</p>
+                    <p className="text-gray-300">Nine Tails/GLAY, Kirin/KO, Blue Dragon/SUSUMU, White Tiger/SHINTARO, Phoenix/DD, Black Tortoise/KO-SK</p>
+                    <p className="text-gray-200 mt-2">Phantom Beast Team:</p>
+                    <p className="text-gray-300">Dragon Bahamut/TEN, Flaming Bull APIS/SAI, Unicorn/YUHI, Deer of Keruneia/RICO, Sheep/HIROYA, Mountain Goat/TEZRO</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-  
-        {/* 聯繫方式 */}
-        <div className="space-y-6">
-          <h4 className="text-2xl font-semibold text-gray-800">聯繫我們</h4>
-          <div className="bg-gray-50 p-6 rounded-lg space-y-4">
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">電子郵件</div>
-              <div className="text-gray-600">contact@blacksafari.com</div>
+
+          {/* 時間地點 */}
+          <div className="bg-white/10 p-4 md:p-6 rounded-lg">
+            <h2 className="text-lg md:text-xl font-semibold mb-3">Time & Location</h2>
+            <div className="space-y-2">
+              <p>Date: 2024.12.21（SAT）</p>
+              <p>Time: Coming Soon</p>
+              <p>Location: Coming Soon</p>
             </div>
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">電話</div>
-              <div className="text-gray-600">(02) 2345-6789</div>
+          </div>
+
+          {/* 票務資訊 */}
+          <div className="bg-white/10 p-4 md:p-6 rounded-lg">
+            <h2 className="text-lg md:text-xl font-semibold mb-4">Ticket Information</h2>
+            
+            {/* Sales Period */}
+            <div className="mb-6">
+              <h3 className="text-base md:text-lg font-medium mb-2">Sales Period</h3>
+              <p className="text-gray-200">11/22 (FRI) - 12/14 (SAT)</p>
             </div>
-            <div className="flex gap-4">
-              <div className="w-32 font-semibold text-gray-700">社群媒體</div>
-              <div className="text-gray-600">Instagram: @blacksafari.tw</div>
+
+            {/* Pre-sale Tickets */}
+            <div className="space-y-4">
+              <div className="border-l-2 border-blue-500 pl-4">
+                <h4 className="font-medium">Early Bird Ticket</h4>
+                <p className="text-gray-200">3,000 yen/1D [Priority Admission]</p>
+              </div>
+
+              <div className="border-l-2 border-blue-500 pl-4">
+                <h4 className="font-medium">BLACK SAFARI & NIKE collaboration costumes</h4>
+                <p className="text-gray-200">3,000 yen/1D</p>
+              </div>
+
+              <div className="border-l-2 border-green-500 pl-4">
+                <h4 className="font-medium">VIP ticket</h4>
+                <p className="text-gray-200">6,500 yen/1D [Priority admission, includes Christmas dinner box with your favorite cast member]</p>
+              </div>
             </div>
+
+            {/* Door Tickets */}
+            <div className="mt-6">
+              <h3 className="text-base md:text-lg font-medium mb-3">Ticket prices on the day of the event</h3>
+              <div className="space-y-3">
+                <p>Out-of-prefecture & overseas discount: 3,200 yen/1D (*Proof of current address)</p>
+                <p>AiiRO CAFE&ALAMAS CAFE Discount: 3,200 yen/1D</p>
+                <p>9monsters: 3,500 yen/1D</p>
+                <p>DOOR: 4,000 yen/1D</p>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => window.location.href = 'https://bit.ly/BS1221'}
+              className="mt-6 bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-full transition duration-300 w-full"
+            >
+              Purchase Tickets
+            </button>
           </div>
         </div>
       </div>
-    );
-  }
+
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  );
+}
