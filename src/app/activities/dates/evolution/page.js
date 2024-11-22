@@ -104,7 +104,7 @@ export default function DateEvolutionPage() {
                     <img
                       src={`/images/evolution-${index + 1}.jpg`}
                       alt={`Cast Image ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 ))}
@@ -144,7 +144,7 @@ export default function DateEvolutionPage() {
             </div>
           ) : (
             // 電腦版 - 橫向滾動
-            <div className="overflow-x-auto scrollbar-hide">
+            <div className="overflow-x-auto scrollbar-hide pb-4">
               <div className="flex gap-4">
                 {images.map((index) => (
                   <div 
@@ -273,11 +273,9 @@ export default function DateEvolutionPage() {
 
       <style jsx global>{`
         .scrollbar-hide::-webkit-scrollbar {
-          display: none;
         }
         .scrollbar-hide {
           -ms-overflow-style: none;
-          scrollbar-width: none;
         }
       `}</style>
     </div>
