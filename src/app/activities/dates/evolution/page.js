@@ -20,16 +20,23 @@ export default function DateEvolutionPage() {
       ${isMobile ? 'w-screen px-4' : 'max-w-[calc(100vw-280px)] ml-4 p-4'}
     `}>
       <div className="bg-black/90 backdrop-blur-sm rounded-lg p-4 md:p-6 shadow-lg">
-        {/* 標題 */}
-        <h1 className={`
-          font-bold text-white mb-6 text-center
-          ${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'}
-        `}>
-          BLACK SAFARI EVENTS ON 2024.12.21
-        </h1>
-
-        {/* 圖片橫向滾動區域 */}
+        {/* 主要海報圖片 */}
         <div className="mb-8">
+          <div className={`
+            aspect-[3/4] rounded-lg overflow-hidden mx-auto
+            ${isMobile ? 'w-full' : 'max-w-[600px]'}
+          `}>
+            <img
+              src="/images/1221_poster.jpg"
+              alt="BLACK SAFARI IN EVOLUTION OFFICIAL POSTER"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Cast 圖片橫向滾動區域 */}
+        <div className="mb-8">
+          <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">Cast Gallery</h2>
           <div className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-4">
               {[1, 2, 3, 4, 5, 6].map((index) => (
@@ -105,11 +112,9 @@ export default function DateEvolutionPage() {
 
           {/* 時間地點 */}
           <div className="bg-white/10 p-4 md:p-6 rounded-lg">
-            <h2 className="text-lg md:text-xl font-semibold mb-3">Time & Location</h2>
+            <h2 className="text-lg md:text-xl font-semibold mb-3">Time</h2>
             <div className="space-y-2">
-              <p>Date: 2024.12.21（SAT）</p>
-              <p>Time: Coming Soon</p>
-              <p>Location: Coming Soon</p>
+              <p>Date&Time: 2024.12.21（SAT）21:00</p>
             </div>
           </div>
 
