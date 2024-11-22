@@ -27,26 +27,26 @@ const Navigation = () => {
   const menuItems = [
     {
       id: 1,
-      title: '活動介紹',
+      title: 'Event Introduction',
       subItems: [
-        { id: 'intro-1', title: '介紹內容', path: '/activities/intro/content' }
+        { id: 'intro-1', title: 'Introduction', path: '/activities/intro/content' }
       ]
     },
     {
       id: 2,
-      title: '售票資訊',
+      title: 'Ticketing Info',
       externalLink: 'https://bit.ly/BS1221'
     },
     {
       id: 3,
-      title: '開辦日期',
+      title: 'Hosting Date',
       subItems: [
         { id: 'date-1', title: '2024.12.21（SAT）BLACK SAFARI in EVOLUTION', path: '/activities/dates/evolution' }
       ]
     },
     {
       id: 4,
-      title: '精彩活動回顧',
+      title: 'Event Review',
       subItems: [
         { id: 'event-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/events/origin' },
         { id: 'event-2', title: '2024.10.25 台北無心戒酒會的合作活動', path: '/activities/events/collaboration1' },
@@ -56,7 +56,7 @@ const Navigation = () => {
     },
     {
       id: 5,
-      title: 'BLACK SAFARI 的LOGO介紹',
+      title: 'BLACK SAFARI Logo Introduction',
       subItems: [
         { id: 'logo-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/logo/origin' },
         { id: 'logo-2', title: '2024.12.21（SAT）BLACK SAFARI in EVOLUTION', path: '/activities/logo/evolution' }
@@ -64,7 +64,7 @@ const Navigation = () => {
     },
     {
       id: 6,
-      title: '合作廠商',
+      title: 'Partners',
       subItems: [
         { 
           id: 'partner-1', 
@@ -77,12 +77,17 @@ const Navigation = () => {
           externalLink: 'https://ninemonsters.com/'
         },
         { 
-          id: 'partner-3', 
+            id: 'partner-3', 
+            title: 'RainbowEvents', 
+            externalLink: 'https://www.rbwevents.com/'
+        },
+        { 
+          id: 'partner-4', 
           title: 'BLACK SAFARI & NIKE Collaborative gym wear', 
           path: '/activities/partners/nike' 
         },
         { 
-          id: 'partner-4', 
+          id: 'partner-5', 
           title: 'BLACK SAFARI & Under Armour Collaborative gym wear', 
           path: '/activities/partners/ua' 
         }
