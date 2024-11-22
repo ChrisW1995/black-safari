@@ -3,7 +3,40 @@ import { useState, useEffect } from 'react';
 
 export default function DateEvolutionPage() {
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // Add this line
 
+  // 處理觸控滑動
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(distance) >= minSwipeDistance) {
+      if (distance > 0) {
+        // 向左滑動 - 下一張
+        setCurrentImageIndex((prev) => (prev + 1) % 6);
+      } else {
+        // 向右滑動 - 上一張
+        setCurrentImageIndex((prev) => (prev - 1 + 6) % 6);
+      }
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // 監聽視窗大小
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -13,6 +46,19 @@ export default function DateEvolutionPage() {
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
+
+  // 自動輪播（僅在手機版）
+  useEffect(() => {
+    if (isMobile) {
+      const timer = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % 6);
+      }, 3000); // 每3秒切換一次
+
+      return () => clearInterval(timer);
+    }
+  }, [isMobile]);
+
+  const images = [1, 2, 3, 4, 5, 6];
 
   return (
     <div className={`
@@ -34,32 +80,90 @@ export default function DateEvolutionPage() {
           </div>
         </div>
 
-        {/* Cast 圖片橫向滾動區域 */}
+        {/* Cast 圖片輪播區域 */}
         <div className="mb-8">
           <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">Cast Gallery</h2>
-          <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-4">
-              {[1, 2, 3, 4, 5, 6].map((index) => (
-                <div 
-                  key={index} 
-                  style={{
-                    width: isMobile ? 'calc(100vw - 32px)' : '260px'
-                  }}
-                  className="flex-shrink-0"
-                >
-                  <div className="aspect-[3/4] rounded-lg overflow-hidden">
+          {isMobile ? (
+            // 手機版 - 自動輪播
+            <div className="relative">
+              {/* 圖片容器 */}
+              <div 
+                className="aspect-[3/4] rounded-lg overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                {images.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`
+                      absolute inset-0 transition-opacity duration-500
+                      ${currentImageIndex === index ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+                    `}
+                  >
                     <img
-                      src={`/images/evolution-${index}.jpg`}
-                      alt={`Event Image ${index}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      src={`/images/evolution-${index + 1}.jpg`}
+                      alt={`Cast Image ${index + 1}`}
+                      className="w-full h-full object-cover"
                     />
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+                ))}
+              </div>
 
+              {/* 左箭頭 */}
+              <button
+                onClick={() => setCurrentImageIndex((prev) => (prev - 1 + 6) % 6)}
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              {/* 右箭頭 */}
+              <button
+                onClick={() => setCurrentImageIndex((prev) => (prev + 1) % 6)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* 輪播指示點 */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 
+                      ${currentImageIndex === index ? 'bg-white w-4' : 'bg-white/50'}`}
+                    onClick={() => setCurrentImageIndex(index)}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            // 電腦版 - 橫向滾動
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-4">
+                {images.map((index) => (
+                  <div 
+                    key={index}
+                    className="w-[260px] flex-shrink-0"
+                  >
+                    <div className="aspect-[3/4] rounded-lg overflow-hidden">
+                      <img
+                        src={`/images/evolution-${index}.jpg`}
+                        alt={`Cast Image ${index}`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
         {/* 活動介紹 */}
         <div className="space-y-6 text-white">
           {/* Event Description */}
