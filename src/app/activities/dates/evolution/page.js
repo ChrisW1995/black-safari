@@ -151,7 +151,7 @@ export default function DateEvolutionPage() {
                     key={index}
                     className="w-[260px] flex-shrink-0"
                   >
-                    <div className="aspect-[3/4] rounded-lg overflow-hidden">
+                    <div className="rounded-lg overflow-hidden">
                       <img
                         src={`/images/evolution-${index}.jpg`}
                         alt={`Cast Image ${index}`}
