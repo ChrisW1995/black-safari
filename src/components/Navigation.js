@@ -96,6 +96,11 @@ const Navigation = () => {
           title: 'ALAMAS CAFE',  
           externalLink: 'https://alamas-cafe.net/'
         },
+        {
+            id: 'partner-9',
+            title: 'absorb',  
+            externalLink: 'https://absorb.tokyo/'
+          },
         { 
           id: 'partner-4', 
           title: 'BLACK SAFARI & NIKE Collaborative gym wear', 
