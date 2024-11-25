@@ -106,6 +106,15 @@ export default function HomePage() {
               className="w-full h-full object-cover"
             />
           </div>
+
+          <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden mt-6">
+            <img 
+              src="/images/1221_poster-2.jpg" 
+              alt="BLACK SAFARI Event" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+
         </div>
       </div>
     </div>
