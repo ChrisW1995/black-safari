@@ -119,6 +119,35 @@ const VideoCard = ({ video, onClick }) => {
   );
 };
 
+const VideoPlayer = ({ src, onLoadStart, onLoadedData }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    // 嘗試在 iOS 上自動載入 metadata
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      className="w-full h-full"
+      controls
+      playsInline
+      muted // 初始靜音，有助於在某些移動瀏覽器上自動播放
+      preload="metadata"
+      controlsList="nodownload" // 防止下載
+      onLoadStart={onLoadStart}
+      onLoadedData={onLoadedData}
+      // 添加多個視頻源以提高兼容性
+    >
+      <source src={src} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  );
+};
+
 
 export default function PhotoGallery() {
   const [selectedMedia, setSelectedMedia] = useState(null);
@@ -323,24 +352,20 @@ const navigateMedia = useCallback((direction) => {
               {/* Content wrapper */}
               <div className="w-full h-full flex flex-col items-center justify-center">
                 <div className="w-full max-w-4xl">
-                  {mediaType === 'video' ? (
-                    <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-                      <video
-                        src={selectedMedia.src}
-                        controls
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full"
-                        onLoadStart={() => setIsVideoLoading(true)}
-                        onLoadedData={() => setIsVideoLoading(false)}
-                      />
-                      {isVideoLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
+                {mediaType === 'video' ? (
+                  <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+                    <VideoPlayer
+                      src={selectedMedia.src}
+                      onLoadStart={() => setIsVideoLoading(true)}
+                      onLoadedData={() => setIsVideoLoading(false)}
+                    />
+                    {isVideoLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
                     <div className="relative bg-black rounded-lg overflow-hidden">
                       <img
                         src={selectedMedia.src}
