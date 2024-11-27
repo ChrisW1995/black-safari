@@ -162,14 +162,14 @@ const Navigation = () => {
     <>
       {/* 手機版選單按鈕 */}
       {isMobile && (
-        <button
-          className="fixed top-4 right-4 z-40 p-2 bg-gray-800 text-white rounded hover:bg-gray-700 flex items-center gap-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          <span className="text-sm">Menu</span>
-          <Menu size={20} />
-        </button>
-      )}
+  <button
+    className="fixed top-4 right-4 z-[60] p-2 bg-gray-800 text-white rounded hover:bg-gray-700 flex items-center gap-2"
+    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+  >
+    <span className="text-sm">Menu</span>
+    <Menu size={20} />
+  </button>
+)}
 
       {/* 側邊選單 */}
       <aside className={`

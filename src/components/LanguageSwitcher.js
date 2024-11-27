@@ -5,15 +5,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
-  const [position, setPosition] = useState('right-8');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setPosition('left-4');
-      } else {
-        setPosition('right-8');
-      }
+      setIsMobile(window.innerWidth < 768);
     };
 
     handleResize(); // 初始檢查
@@ -22,24 +18,27 @@ export default function LanguageSwitcher() {
   }, []);
 
   return (
-    <div className={`fixed top-4 ${position} z-50 flex gap-2`}>
+    <div className={`
+      fixed z-50 flex gap-1
+      ${isMobile ? 'top-4 right-[105px] top-[20px]' : 'top-4 right-8'}
+    `}>
       <button
         onClick={() => setLanguage('en')}
-        className={`px-3 py-1 rounded text-sm ${
+        className={`px-2 py-1 rounded text-sm ${
           language === 'en'
             ? 'bg-white text-black'
             : 'bg-black/50 text-white hover:bg-black/70'
-        }`}
+        } transition-colors`}
       >
         EN
       </button>
       <button
         onClick={() => setLanguage('ja')}
-        className={`px-3 py-1 rounded text-sm ${
+        className={`px-2 py-1 rounded text-sm ${
           language === 'ja'
             ? 'bg-white text-black'
             : 'bg-black/50 text-white hover:bg-black/70'
-        }`}
+        } transition-colors`}
       >
         JP
       </button>

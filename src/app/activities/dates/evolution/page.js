@@ -85,7 +85,7 @@ export default function DateEvolutionPage() {
       <div className={`mx-auto ${isMobile ? 'w-screen px-4' : 'max-w-[calc(100vw-280px)] ml-4 p-4'}`}>
         <div className="bg-black/90 backdrop-blur-sm rounded-lg p-4 md:p-6 shadow-lg">
           {/* 主要海報圖片區域 */}
-          <div className="mb-8">
+          <div className="mb-8 mt-12">
             <div className={`
               relative aspect-[3/4] rounded-lg overflow-hidden mx-auto
               ${isMobile ? 'w-full' : 'max-w-[600px]'}
