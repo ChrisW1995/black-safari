@@ -48,8 +48,8 @@ const useVideoThumbnail = (videoUrl, seekTime = 1) => {
 // 實際的媒體數據
 const photos = Array.from({ length: 74 }, (_, i) => ({
   id: i + 1,
-  title: `BLACK SAFARI Photo ${i + 1}`,
-  description: `BLACK SAFARI 2024 Golden Week event photo ${i + 1}`,
+  title: `2024.5.5 BLACK SAFARI IN ORIGIN ${i + 1}`,
+  description: `2024.5.5 BLACK SAFARI IN ORIGIN ${i + 1}`,
   uploadDate: new Date(2024, 5, 5),
   src: `/images/origin-20240505/${i + 1}.jpeg`, // 單一圖片路徑
 }));
@@ -57,15 +57,15 @@ const photos = Array.from({ length: 74 }, (_, i) => ({
 const videos = [
   {
     id: 1,
-    title: "Opening Performance",
-    description: "BLACK SAFARI 2024 opening show featuring special performances",
+    title: "2024.5.5 BLACK SAFARI IN ORIGIN",
+    description: "2024.5.5 BLACK SAFARI IN ORIGIN",
     duration: "3:45",
     src: "/videos/origin-20240505/1.mp4"
   },
   {
     id: 2,
-    title: "Event Highlights",
-    description: "BLACK SAFARI 2024 event highlights compilation",
+    title: "2024.5.5 BLACK SAFARI IN ORIGIN",
+    description: "2024.5.5 BLACK SAFARI IN ORIGIN",
     duration: "5:20",
     src: "/videos/origin-20240505/2.mp4"
   }
@@ -190,14 +190,11 @@ export default function PhotoGallery() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-900 p-4">
+    <div className="min-h-screen p-4">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">BLACK SAFARI 2024</h1>
-          <p className="text-sm md:text-base text-gray-300">
-            Event Photos & Videos - Golden Week Celebration
-          </p>
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 py-12">2024.5.5 BLACK SAFARI IN ORIGIN</h1>
         </div>
 
         {/* Videos Section */}
@@ -205,13 +202,12 @@ export default function PhotoGallery() {
           <h2 className="text-xl font-semibold text-white flex items-center gap-2">
             <Play className="w-5 h-5" /> Event Videos
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 bg-gray-900/0 backdrop-blur-sm p-4 rounded-lg">
             {videos.map((video) => (
               <MediaCard key={video.id} item={video} type="video" />
             ))}
           </div>
         </div>
-
 
         {/* Photos Section */}
         <div className="space-y-4">
@@ -247,8 +243,14 @@ export default function PhotoGallery() {
                     src={selectedMedia.src}
                     controls
                     className="w-full h-full"
-                    poster={selectedMedia.posterSrc}
+                    onLoadStart={() => setIsVideoLoading(true)}
+                    onLoadedData={() => setIsVideoLoading(false)}
                   />
+                  {isVideoLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
@@ -267,17 +269,7 @@ export default function PhotoGallery() {
           </div>
         )}
 
-        {/* Event Description */}
-        <div className="bg-gray-800/90 p-4 rounded-lg">
-          <h2 className="text-lg font-bold text-white mb-2">About The Event</h2>
-          <p className="text-xs text-gray-300 leading-relaxed">
-            Established in Tokyo's iconic Shinjuku 2-chome gay district for Golden Week 2024, 
-            BLACK SAFARI represents a revolutionary party event brand that celebrates diversity, 
-            expression, and freedom. The event features various performances, including unique 
-            stage drama GOGO shows, special performances, and Japan's distinctive flag performance, 
-            all designed to create an unforgettable experience.
-          </p>
-        </div>
+
       </div>
     </div>
   );
