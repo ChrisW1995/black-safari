@@ -61,7 +61,7 @@ const useVideoThumbnail = (videoUrl, seekTime = 1) => {
 };
 
 // 實際的媒體數據
-const photos = Array.from({ length: 74 }, (_, i) => ({
+const photos = Array.from({ length: 102 }, (_, i) => ({
   id: i + 1,
   title: `2024.5.5 BLACK SAFARI IN ORIGIN`,
   description: `2024.5.5 BLACK SAFARI IN ORIGIN`,
@@ -85,6 +85,22 @@ const videos = [
     duration: "0:47",
     src: "/videos/origin-20240505/2.mp4",
     poster: "/videos/origin-20240505/1-thumbnail.jpg"
+  },
+  {
+    id: 3,
+    title: "2024.5.5 BLACK SAFARI IN ORIGIN",
+    description: "2024.5.5 BLACK SAFARI IN ORIGIN",
+    duration: "1:23",
+    src: "/videos/origin-20240505/3.mp4",
+    poster: "/videos/origin-20240505/3-thumbnail.jpg"
+  },
+  {
+    id: 4,
+    title: "2024.5.5 BLACK SAFARI IN ORIGIN",
+    description: "2024.5.5 BLACK SAFARI IN ORIGIN",
+    duration: "2:05",
+    src: "/videos/origin-20240505/4.mp4",
+    poster: "/videos/origin-20240505/4-thumbnail.jpg"
   }
 ];
 
@@ -123,26 +139,66 @@ const VideoPlayer = ({ src, onLoadStart, onLoadedData }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    // 嘗試在 iOS 上自動載入 metadata
-    if (videoRef.current) {
-      videoRef.current.load();
+    const video = videoRef.current;
+    if (!video) return;
+
+    // 重置影片設定
+    const resetVideo = () => {
+      video.load();
+      // 設置初始音量（iOS 需要）
+      video.volume = 1;
+    };
+
+    // 處理播放錯誤
+    const handleError = (e) => {
+      console.error('Video playback error:', e);
+      resetVideo();
+    };
+
+    // 處理播放開始
+    const handlePlay = () => {
+      // 某些移動設備需要在用戶交互後設置這些屬性
+      video.playsInline = true;
+      video.controls = true;
+    };
+
+    // 添加事件監聽器
+    video.addEventListener('error', handleError);
+    video.addEventListener('play', handlePlay);
+
+    // iOS Safari 特定優化
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
     }
-  }, [src]);
+
+    // 初始化設置
+    resetVideo();
+
+    // 清理函數
+    return () => {
+      if (video) {
+        video.removeEventListener('error', handleError);
+        video.removeEventListener('play', handlePlay);
+      }
+    };
+  }, []);
 
   return (
     <video
       ref={videoRef}
       className="w-full h-full"
-      controls
       playsInline
-      muted // 初始靜音，有助於在某些移動瀏覽器上自動播放
+      webkit-playsinline="true"
+      controls
+      controlsList="nodownload noremoteplayback" 
       preload="metadata"
-      controlsList="nodownload" // 防止下載
       onLoadStart={onLoadStart}
       onLoadedData={onLoadedData}
-      // 添加多個視頻源以提高兼容性
     >
       <source src={src} type="video/mp4" />
+      {/* 添加 WebM 格式作為備選 */}
+      <source src={src.replace('.mp4', '.webm')} type="video/webm" />
       Your browser does not support the video tag.
     </video>
   );
@@ -155,8 +211,71 @@ export default function PhotoGallery() {
   const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
   const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [currentVideoPage, setCurrentVideoPage] = useState(1);
 
   const totalPhotoPages = Math.ceil(photos.length / GRID_SIZE);
+
+  const VIDEO_ITEMS_PER_PAGE = {
+    mobile: 1,    // 手機版一次顯示1個
+    desktop: 2    // 桌面版一次顯示2個
+  };
+
+
+   // 獲取當前頁面要顯示的影片
+   const getCurrentVideos = (page) => {
+    const isMobile = window.innerWidth < 640; // sm breakpoint
+    const itemsPerPage = isMobile ? VIDEO_ITEMS_PER_PAGE.mobile : VIDEO_ITEMS_PER_PAGE.desktop;
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return videos.slice(start, end);
+  };
+
+  // 計算影片總頁數
+  const getTotalVideoPages = () => {
+    const isMobile = window.innerWidth < 640;
+    const itemsPerPage = isMobile ? VIDEO_ITEMS_PER_PAGE.mobile : VIDEO_ITEMS_PER_PAGE.desktop;
+    return Math.ceil(videos.length / itemsPerPage);
+  };
+
+  // 監聽視窗大小變化，重新計算頁數
+  useEffect(() => {
+    const handleResize = () => {
+      const totalPages = getTotalVideoPages();
+      if (currentVideoPage > totalPages) {
+        setCurrentVideoPage(1);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [currentVideoPage]);
+
+  const VideoPaginationControls = ({ currentPage, setPage }) => {
+    const totalPages = getTotalVideoPages();
+    
+    return (
+      <div className="flex items-center justify-center gap-4 mt-4">
+        <button
+          className="p-2 text-white bg-gray-800/50 rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <span className="text-sm text-gray-300">
+          {currentPage} / {totalPages}
+        </span>
+        <button
+          className="p-2 text-white bg-gray-800/50 rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    );
+  };
+
 // 添加鍵盤導航功能
 useEffect(() => {
   const handleKeyPress = (e) => {
@@ -287,10 +406,14 @@ const navigateMedia = useCallback((direction) => {
             <Play className="w-5 h-5" /> Event Videos
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-900/0 backdrop-blur-sm p-4 rounded-lg">
-            {videos.map((video) => (
+            {getCurrentVideos(currentVideoPage).map((video) => (
               <MediaCard key={video.id} item={video} type="video" />
             ))}
           </div>
+          <VideoPaginationControls 
+            currentPage={currentVideoPage}
+            setPage={setCurrentVideoPage}
+          />
         </div>
 
         {/* Photos Section */}
