@@ -74,14 +74,14 @@ const videos = [
     id: 1,
     title: "2024.5.5 BLACK SAFARI IN ORIGIN",
     description: "2024.5.5 BLACK SAFARI IN ORIGIN",
-    duration: "3:45",
+    duration: "1:51",
     src: "/videos/origin-20240505/1.mp4"
   },
   {
     id: 2,
     title: "2024.5.5 BLACK SAFARI IN ORIGIN",
     description: "2024.5.5 BLACK SAFARI IN ORIGIN",
-    duration: "5:20",
+    duration: "0:47",
     src: "/videos/origin-20240505/2.mp4"
   }
 ];
@@ -90,19 +90,74 @@ const GRID_SIZE = 16;
 
 // 視頻卡片元件
 const VideoCard = ({ video, onClick }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const thumbnail = useVideoThumbnail(video.src);
+  const videoRef = useRef();
+
+  // 備用縮圖生成方法
+  useEffect(() => {
+    if (!thumbnail) {
+      const videoElement = document.createElement('video');
+      videoElement.crossOrigin = "anonymous";
+      videoElement.src = video.src;
+      videoElement.preload = "metadata";
+
+      const generateFallbackThumbnail = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = videoElement.videoWidth || 300;
+        canvas.height = videoElement.videoHeight || 200;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 添加播放圖標到縮圖中
+        ctx.fillStyle = '#ffffff';
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX - 20, centerY - 25);
+        ctx.lineTo(centerX + 20, centerY);
+        ctx.lineTo(centerX - 20, centerY + 25);
+        ctx.closePath();
+        ctx.fill();
+
+        // 設置為預設縮圖
+        videoRef.current.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        videoRef.current.style.backgroundSize = 'cover';
+        videoRef.current.style.backgroundPosition = 'center';
+      };
+
+      videoElement.onloadeddata = generateFallbackThumbnail;
+      videoElement.onerror = () => {
+        setHasError(true);
+        setIsLoading(false);
+      };
+    }
+  }, [thumbnail, video.src]);
 
   return (
     <div
-      className="group relative cursor-pointer aspect-square"
+      ref={videoRef}
+      className="group relative cursor-pointer aspect-square bg-gray-900"
       onClick={onClick}
     >
       <div className="w-full h-full rounded-md overflow-hidden">
-        <img
-          src={thumbnail || '/placeholder.jpg'} // 在縮圖生成前顯示預設圖片
-          alt={video.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {thumbnail ? (
+          <img
+            src={thumbnail}
+            alt={video.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            onLoad={() => setIsLoading(false)}
+            onError={() => setHasError(true)}
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-900 flex items-center justify-center">
+            <div className="w-8 h-8 bg-black/50 rounded-full flex items-center justify-center">
+              <Play className="text-white w-4 h-4" />
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="w-8 h-8 bg-black/50 rounded-full flex items-center justify-center">
             <Play className="text-white w-4 h-4" />
