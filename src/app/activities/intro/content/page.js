@@ -16,9 +16,9 @@ export default function IntroContent() {
           <div className="space-y-4">
             <h3 className="text-3xl font-bold text-white">BLACK SAFARI 2024</h3>
             <p className="text-lg text-gray-300 leading-relaxed">
-              Established in Tokyo&apos;s iconic Shinjuku 2-chome gay district for Golden Week 2024, 
+              {`Established in Tokyo's iconic Shinjuku 2-chome gay district for Golden Week 2024, 
               BLACK SAFARI represents a revolutionary party event brand that celebrates diversity, 
-              expression, and freedom. Join us on May 5, 2024 (SUN) for an unforgettable experience.
+              expression, and freedom. Join us on May 5, 2024 (SUN) for an unforgettable experience.`}
             </p>
           </div>
 
@@ -70,15 +70,15 @@ export default function IntroContent() {
             <h4 className="text-2xl font-semibold text-white">About The Event</h4>
             <div className="bg-gray-800/90 p-6 rounded-lg">
               <p className="text-gray-300 leading-relaxed">
-                The event incorporates the theme of SAFARI&apos;s 27 animals, symbolizing its dedication to the LGBTQ community 
+                {`The event incorporates the theme of SAFARI's 27 animals, symbolizing its dedication to the LGBTQ community 
                 and its mission to create a space where people from all backgrounds can connect, celebrate, and revel in 
-                the festive atmosphere. The party&apos;s music lineup focuses on three primary genres: Vocal Circuit House, 
+                the festive atmosphere. The party's music lineup focuses on three primary genres: Vocal Circuit House, 
                 Tribal Circuit House, and Dark Circuit House. Beyond the music, BLACK SAFARI offers a range of distinctive 
-                performances, including the brand&apos;s unique stage drama GOGO show, erotic shows featuring adult film actors, 
-                and Japan&apos;s one-of-a-kind naked bath towel flag performance, all designed to immerse guests in an atmosphere 
+                performances, including the brand's unique stage drama GOGO show, erotic shows featuring adult film actors, 
+                and Japan's one-of-a-kind naked bath towel flag performance, all designed to immerse guests in an atmosphere 
                 of passion and excitement. Additionally, BLACK SAFARI has partnered with globally renowned sports brands Nike 
                 and Under Armour to create exclusive fitness apparel. Plans are underway for future collaborations with Adidas 
-                and other sports brands. Customers interested in these products are welcome to contact us for further inquiries.
+                and other sports brands. Customers interested in these products are welcome to contact us for further inquiries.`}
               </p>
             </div>
           </div>
