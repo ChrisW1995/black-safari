@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -212,6 +213,7 @@ export default function PhotoGallery() {
   const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [currentVideoPage, setCurrentVideoPage] = useState(1);
+  const [isMobile, setIsMobile] = useState(true); // 預設為 mobile 視圖
 
   const totalPhotoPages = Math.ceil(photos.length / GRID_SIZE);
 
@@ -220,35 +222,41 @@ export default function PhotoGallery() {
     desktop: 2    // 桌面版一次顯示2個
   };
 
-
-   // 獲取當前頁面要顯示的影片
-   const getCurrentVideos = (page) => {
-    const isMobile = window.innerWidth < 640; // sm breakpoint
-    const itemsPerPage = isMobile ? VIDEO_ITEMS_PER_PAGE.mobile : VIDEO_ITEMS_PER_PAGE.desktop;
-    const start = (page - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return videos.slice(start, end);
-  };
-
-  // 計算影片總頁數
-  const getTotalVideoPages = () => {
-    const isMobile = window.innerWidth < 640;
-    const itemsPerPage = isMobile ? VIDEO_ITEMS_PER_PAGE.mobile : VIDEO_ITEMS_PER_PAGE.desktop;
-    return Math.ceil(videos.length / itemsPerPage);
-  };
-
-  // 監聽視窗大小變化，重新計算頁數
   useEffect(() => {
-    const handleResize = () => {
-      const totalPages = getTotalVideoPages();
-      if (currentVideoPage > totalPages) {
-        setCurrentVideoPage(1);
-      }
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [currentVideoPage]);
+    // 初始檢查
+    checkMobile();
+
+    // 監聽視窗大小變化
+    window.addEventListener('resize', checkMobile);
+    
+    // 清理函數
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+ // 獲取當前頁面要顯示的影片
+ const getCurrentVideos = (page) => {
+  const itemsPerPage = isMobile ? VIDEO_ITEMS_PER_PAGE.mobile : VIDEO_ITEMS_PER_PAGE.desktop;
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return videos.slice(start, end);
+};
+
+// 計算影片總頁數
+const getTotalVideoPages = () => {
+  const itemsPerPage = isMobile ? VIDEO_ITEMS_PER_PAGE.mobile : VIDEO_ITEMS_PER_PAGE.desktop;
+  return Math.ceil(videos.length / itemsPerPage);
+};
+  // 監聽視窗大小變化，重新計算頁數
+  useEffect(() => {
+    const totalPages = getTotalVideoPages();
+    if (currentVideoPage > totalPages) {
+      setCurrentVideoPage(1);
+    }
+  }, [isMobile, currentVideoPage]);
 
   const VideoPaginationControls = ({ currentPage, setPage }) => {
     const totalPages = getTotalVideoPages();
