@@ -137,14 +137,27 @@ const VideoCard = ({ video, onClick }) => {
 };
 
 const VideoPlayer = ({ src, onLoadStart, onLoadedData }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+      // 嘗試在 iOS 上自動載入 metadata
+      if (videoRef.current) {
+        videoRef.current.load();
+      }
+    }, [src]);
+
   return (
     <video
+      ref={videoRef}
       className="w-full h-full"
       controls
       playsInline
+      muted // 初始靜音，有助於在某些移動瀏覽器上自動播放
       preload="metadata"
+      controlsList="nodownload" // 防止下載
       onLoadStart={onLoadStart}
       onLoadedData={onLoadedData}
+      // 添加多個視頻源以提高兼容性
     >
       <source src={src} type="video/mp4" />
       Your browser does not support the video tag.
