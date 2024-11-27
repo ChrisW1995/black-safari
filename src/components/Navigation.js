@@ -9,7 +9,7 @@ import { translations } from '@/locales/content';
 
 const Navigation = () => {
   const { language } = useLanguage();
-  const t = translations[language].nav; // 取得當前語言的導航翻譯
+  const t = translations[language].nav;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -17,7 +17,6 @@ const Navigation = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [expandedMenuId, setExpandedMenuId] = useState(null);
 
-  // 監聽視窗大小變化
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -34,9 +33,7 @@ const Navigation = () => {
     {
       id: 1,
       title: t.activities,
-      subItems: [
-        { id: 'intro-1', title: 'Introduction', path: '/activities/intro/content' }
-      ]
+      path: '/activities/intro/content'
     },
     {
       id: 2,
@@ -103,10 +100,10 @@ const Navigation = () => {
           externalLink: 'https://alamas-cafe.net/'
         },
         {
-            id: 'partner-9',
-            title: 'absorb',  
-            externalLink: 'https://absorb.tokyo/'
-          },
+          id: 'partner-9',
+          title: 'absorb',  
+          externalLink: 'https://absorb.tokyo/'
+        },
         { 
           id: 'partner-4', 
           title: 'BLACK SAFARI & NIKE Collaborative gym wear', 
@@ -126,19 +123,15 @@ const Navigation = () => {
     }
   ];
 
-  // 處理選單點擊
   const handleMenuClick = (item) => {
     if (item.externalLink) {
-      // 對於外部連結，使用 window.location.href
       window.location.href = item.externalLink;
       if (isMobile) {
         setIsMobileMenuOpen(false);
       }
     } else if (item.subItems?.length > 0) {
-      // 展開/收合子選單
       setExpandedMenuId(expandedMenuId === item.id ? null : item.id);
     } else if (item.path) {
-      // 內部頁面導航
       router.push(item.path);
       if (isMobile) {
         setIsMobileMenuOpen(false);
@@ -146,7 +139,6 @@ const Navigation = () => {
     }
   };
 
-  // 處理子選單項目點擊
   const handleSubItemClick = (item) => {
     if (item.externalLink) {
       window.location.href = item.externalLink;
@@ -160,18 +152,16 @@ const Navigation = () => {
 
   return (
     <>
-      {/* 手機版選單按鈕 */}
       {isMobile && (
-  <button
-    className="fixed top-4 right-4 z-[60] p-2 bg-gray-800 text-white rounded hover:bg-gray-700 flex items-center gap-2"
-    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-  >
-    <span className="text-sm">Menu</span>
-    <Menu size={20} />
-  </button>
-)}
+        <button
+          className="fixed top-4 right-4 z-[60] p-2 bg-gray-800 text-white rounded hover:bg-gray-700 flex items-center gap-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <span className="text-sm">Menu</span>
+          <Menu size={20} />
+        </button>
+      )}
 
-      {/* 側邊選單 */}
       <aside className={`
         ${isMobile ? 'fixed' : 'relative'} 
         w-64 h-screen z-30 flex flex-col
@@ -179,15 +169,13 @@ const Navigation = () => {
         ${isMobile ? (isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full') : 'translate-x-0'}
         transition-transform duration-200 ease-in-out
       `}>
-        {/* 主選單區域 */}
         <div className="flex-1 overflow-hidden flex flex-col min-h-0">
           <div className="p-4 border-b border-white/20">
             <h1 className="text-xl font-bold text-white">BLACK SAFARI</h1>
           </div>
-          <nav className="flex-1 overflow-y-auto px-2">
+          <nav className="flex-1 overflow-y-auto px-2 pt-2">
             {menuItems.map(item => (
               <div key={item.id}>
-                {/* 主選單項目 */}
                 <button
                   onClick={() => handleMenuClick(item)}
                   className={`w-full text-left py-2 pl-4 hover:bg-white/10 text-white/90
@@ -202,7 +190,6 @@ const Navigation = () => {
                   </div>
                 </button>
 
-                {/* 子選單項目 */}
                 {expandedMenuId === item.id && item.subItems && (
                   <div className={isMobile ? 'bg-gray-900' : 'bg-black/20'}>
                     {item.subItems.map(subItem => (
@@ -229,14 +216,12 @@ const Navigation = () => {
           </nav>
         </div>
 
-        {/* QR Code 區域 */}
         <div className={`
           p-4 border-t border-white/20
-          ${isMobile ? 'mb-[100px]' : ''} // 在手機版時增加底部間距，避免被工具列遮擋
+          ${isMobile ? 'mb-[100px]' : ''}
         `}>
           <div className="text-white text-sm mb-3">Follow us:</div>
           <div className="grid grid-cols-2 gap-4">
-            {/* X（Twitter）QR Code */}
             <a 
               href="https://x.com/blacksafari2024" 
               target="_blank" 
@@ -252,7 +237,6 @@ const Navigation = () => {
               </div>
               <span className="text-white text-xs">X</span>
             </a>
-            {/* Instagram QR Code */}
             <a 
               href="https://instagram.com/blacksafari_tokyo" 
               target="_blank" 
