@@ -91,7 +91,7 @@ const videos = [
     id: 3,
     title: "2024.5.5 BLACK SAFARI IN ORIGIN",
     description: "2024.5.5 BLACK SAFARI IN ORIGIN",
-    duration: "1:23",
+    duration: "4:51",
     src: "/videos/origin-20240505/3.mp4",
     poster: "/videos/origin-20240505/3-thumbnail.jpg"
   },
@@ -99,7 +99,7 @@ const videos = [
     id: 4,
     title: "2024.5.5 BLACK SAFARI IN ORIGIN",
     description: "2024.5.5 BLACK SAFARI IN ORIGIN",
-    duration: "2:05",
+    duration: "3:27",
     src: "/videos/origin-20240505/4.mp4",
     poster: "/videos/origin-20240505/4-thumbnail.jpg"
   }

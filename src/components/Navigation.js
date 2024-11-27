@@ -55,7 +55,7 @@ const Navigation = () => {
       title: t.eventReview,
       subItems: [
         { id: 'event-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/events/origin-20240505' },
-        { id: 'event-2', title: '2024.10.25 台北無心戒酒會的合作活動', path: '/activities/events/collaboration1' },
+        { id: 'event-2', title: '2024.10.25 台北無心戒酒會的合作活動', path: '/activities/events/drunk365-20241025' },
         { id: 'event-3', title: '2024.10.26 TAIWANIZE 台北國際彩虹文化節', path: '/activities/events/rainbow' },
         { id: 'event-4', title: '2024.10.26 Only Friends合作活動', path: '/activities/events/collaboration2' }
       ]
