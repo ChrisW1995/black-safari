@@ -143,45 +143,16 @@ const VideoPlayer = ({ src, onLoadStart, onLoadedData }) => {
     const video = videoRef.current;
     if (!video) return;
 
-    // 重置影片設定
-    const resetVideo = () => {
-      video.load();
-      // 設置初始音量（iOS 需要）
-      video.volume = 1;
-    };
-
     // 處理播放錯誤
-    const handleError = (e) => {
-      console.error('Video playback error:', e);
-      resetVideo();
+    const handleError = (error) => {
+      console.error('Video playback error:', error);
+      video.load(); // 重新加載視頻
     };
 
-    // 處理播放開始
-    const handlePlay = () => {
-      // 某些移動設備需要在用戶交互後設置這些屬性
-      video.playsInline = true;
-      video.controls = true;
-    };
-
-    // 添加事件監聽器
     video.addEventListener('error', handleError);
-    video.addEventListener('play', handlePlay);
 
-    // iOS Safari 特定優化
-    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-      video.setAttribute('playsinline', '');
-      video.setAttribute('webkit-playsinline', '');
-    }
-
-    // 初始化設置
-    resetVideo();
-
-    // 清理函數
     return () => {
-      if (video) {
-        video.removeEventListener('error', handleError);
-        video.removeEventListener('play', handlePlay);
-      }
+      video.removeEventListener('error', handleError);
     };
   }, []);
 
@@ -190,21 +161,17 @@ const VideoPlayer = ({ src, onLoadStart, onLoadedData }) => {
       ref={videoRef}
       className="w-full h-full"
       playsInline
-      webkit-playsinline="true"
       controls
-      controlsList="nodownload noremoteplayback" 
       preload="metadata"
+      controlsList="nodownload"
       onLoadStart={onLoadStart}
       onLoadedData={onLoadedData}
     >
       <source src={src} type="video/mp4" />
-      {/* 添加 WebM 格式作為備選 */}
-      <source src={src.replace('.mp4', '.webm')} type="video/webm" />
       Your browser does not support the video tag.
     </video>
   );
 };
-
 
 export default function PhotoGallery() {
   const [selectedMedia, setSelectedMedia] = useState(null);
@@ -480,13 +447,9 @@ const navigateMedia = useCallback((direction) => {
       <div className="w-full h-full max-h-screen flex flex-col items-center justify-center px-4 py-16">
         <div className="w-full max-w-4xl flex flex-col items-center space-y-4">
           {mediaType === 'video' ? (
-            <div className="relative aspect-video bg-black rounded-lg overflow-hidden w-full">
-              <video
+              <div className="relative aspect-video bg-black rounded-lg overflow-hidden w-full">
+              <VideoPlayer
                 src={selectedMedia.src}
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full h-full"
                 onLoadStart={() => setIsVideoLoading(true)}
                 onLoadedData={() => setIsVideoLoading(false)}
               />
