@@ -1,15 +1,20 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// 自定義 Hook 用於產生影片縮圖
+// 更新 GridContainer 元件，添加響應式設計
+const GridContainer = ({ children }) => (
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 w-full">
+    {children}
+  </div>
+);
+
 const useVideoThumbnail = (videoUrl, seekTime = 1) => {
   const [thumbnail, setThumbnail] = useState('');
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // 將 canvas 的創建移到 useEffect 中
     if (!canvasRef.current) {
       canvasRef.current = document.createElement('canvas');
     }
@@ -18,6 +23,8 @@ const useVideoThumbnail = (videoUrl, seekTime = 1) => {
       try {
         const video = videoRef.current;
         video.src = videoUrl;
+        video.playsInline = true;  // 添加 playsInline
+        video.preload = "metadata"; // 添加 preload
         
         await new Promise((resolve) => {
           video.onloadeddata = () => {
@@ -38,7 +45,6 @@ const useVideoThumbnail = (videoUrl, seekTime = 1) => {
       }
     };
 
-    // 同樣將 video 元素的創建移到 useEffect 中
     if (!videoRef.current) {
       videoRef.current = document.createElement('video');
     }
@@ -57,8 +63,8 @@ const useVideoThumbnail = (videoUrl, seekTime = 1) => {
 // 實際的媒體數據
 const photos = Array.from({ length: 74 }, (_, i) => ({
   id: i + 1,
-  title: `2024.5.5 BLACK SAFARI IN ORIGIN ${i + 1}`,
-  description: `2024.5.5 BLACK SAFARI IN ORIGIN ${i + 1}`,
+  title: `2024.5.5 BLACK SAFARI IN ORIGIN`,
+  description: `2024.5.5 BLACK SAFARI IN ORIGIN`,
   uploadDate: new Date(2024, 5, 5),
   src: `/images/origin-20240505/${i + 1}.jpeg`, // 單一圖片路徑
 }));
@@ -81,12 +87,6 @@ const videos = [
 ];
 
 const GRID_SIZE = 16;
-
-const GridContainer = ({ children }) => (
-  <div className="grid grid-cols-4 gap-2 w-full aspect-square">
-    {children}
-  </div>
-);
 
 // 視頻卡片元件
 const VideoCard = ({ video, onClick }) => {
@@ -125,8 +125,52 @@ export default function PhotoGallery() {
   const [mediaType, setMediaType] = useState(null);
   const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
   const [isVideoLoading, setIsVideoLoading] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const totalPhotoPages = Math.ceil(photos.length / GRID_SIZE);
+// 添加鍵盤導航功能
+useEffect(() => {
+  const handleKeyPress = (e) => {
+    if (!selectedMedia || mediaType !== 'photo') return;
+    
+    if (e.key === 'ArrowLeft') {
+      navigateMedia('prev');
+    } else if (e.key === 'ArrowRight') {
+      navigateMedia('next');
+    } else if (e.key === 'Escape') {
+      setSelectedMedia(null);
+      setMediaType(null);
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyPress);
+  return () => window.removeEventListener('keydown', handleKeyPress);
+}, [selectedMedia, mediaType]);
+
+
+
+// 導航函數
+const navigateMedia = useCallback((direction) => {
+  if (!selectedMedia || mediaType !== 'photo' || isNavigating) return;
+
+  setIsNavigating(true);
+  const currentIndex = photos.findIndex(photo => photo.id === selectedMedia.id);
+  let newIndex;
+
+  if (direction === 'next') {
+    newIndex = currentIndex + 1 >= photos.length ? 0 : currentIndex + 1;
+  } else {
+    newIndex = currentIndex - 1 < 0 ? photos.length - 1 : currentIndex - 1;
+  }
+
+  setSelectedMedia(photos[newIndex]);
+  
+  // 防止快速連點
+  setTimeout(() => {
+    setIsNavigating(false);
+  }, 300);
+}, [selectedMedia, mediaType, isNavigating]);
+
 
   const getCurrentPhotos = (page) => {
     const start = (page - 1) * GRID_SIZE;
@@ -199,19 +243,21 @@ export default function PhotoGallery() {
   );
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen px-4 md:px-6 py-12">
+      <div className="w-full max-w-4xl mx-auto space-y-6 md:space-y-8">
         {/* Header */}
-        <div className="text-center">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 py-12">2024.5.5 BLACK SAFARI IN ORIGIN</h1>
+        <div className="text-center py-6 md:py-12">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
+            2024.5.5 BLACK SAFARI IN ORIGIN
+          </h1>
         </div>
 
         {/* Videos Section */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white flex items-center gap-2">
+          <h2 className="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
             <Play className="w-5 h-5" /> Event Videos
           </h2>
-          <div className="grid grid-cols-2 gap-4 bg-gray-900/0 backdrop-blur-sm p-4 rounded-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-900/0 backdrop-blur-sm p-4 rounded-lg">
             {videos.map((video) => (
               <MediaCard key={video.id} item={video} type="video" />
             ))}
@@ -220,7 +266,9 @@ export default function PhotoGallery() {
 
         {/* Photos Section */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Event Photos ({photos.length})</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-white">
+            Event Photos ({photos.length})
+          </h2>
           <GridContainer>
             {getCurrentPhotos(currentPhotoPage).map((photo, index) => (
               <MediaCard key={photo?.id || index} item={photo} type="photo" />
@@ -235,50 +283,85 @@ export default function PhotoGallery() {
 
         {/* Modal for enlarged view */}
         {selectedMedia && (
-          <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/95 z-50">
+            {/* Close button */}
             <button
               onClick={() => {
                 setSelectedMedia(null);
                 setMediaType(null);
               }}
-              className="absolute top-2 right-2 text-white p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+              className="absolute top-4 right-4 text-white p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors z-50"
+              aria-label="Close"
             >
               <X size={20} />
             </button>
-            <div className="w-full max-w-4xl">
-              {mediaType === 'video' ? (
-                <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-                  <video
-                    src={selectedMedia.src}
-                    controls
-                    className="w-full h-full"
-                    onLoadStart={() => setIsVideoLoading(true)}
-                    onLoadedData={() => setIsVideoLoading(false)}
-                  />
-                  {isVideoLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
+
+            {/* Main content container with padding for navigation */}
+            <div className="absolute inset-0 flex items-center justify-center px-12 py-4">
+              {/* Photo navigation buttons */}
+              {mediaType === 'photo' && (
+                <>
+                  <button
+                    onClick={() => navigateMedia('prev')}
+                    className="absolute left-2 z-50 h-12 w-12 flex items-center justify-center text-white rounded-full bg-black/50 hover:bg-black/70 transition-colors touch-manipulation"
+                    aria-label="Previous photo"
+                    disabled={isNavigating}
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button
+                    onClick={() => navigateMedia('next')}
+                    className="absolute right-2 z-50 h-12 w-12 flex items-center justify-center text-white rounded-full bg-black/50 hover:bg-black/70 transition-colors touch-manipulation"
+                    aria-label="Next photo"
+                    disabled={isNavigating}
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </>
+              )}
+
+              {/* Content wrapper */}
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="w-full max-w-4xl">
+                  {mediaType === 'video' ? (
+                    <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+                      <video
+                        src={selectedMedia.src}
+                        controls
+                        playsInline
+                        preload="metadata"
+                        className="w-full h-full"
+                        onLoadStart={() => setIsVideoLoading(true)}
+                        onLoadedData={() => setIsVideoLoading(false)}
+                      />
+                      {isVideoLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="relative bg-black rounded-lg overflow-hidden">
+                      <img
+                        src={selectedMedia.src}
+                        alt={selectedMedia.title}
+                        className="w-full h-auto max-h-[85vh] object-contain mx-auto"
+                        loading="eager"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-black/50 backdrop-blur-sm text-white text-center text-sm">
+                        {`${photos.findIndex(p => p.id === selectedMedia.id) + 1} / ${photos.length}`}
+                      </div>
                     </div>
                   )}
+                  <div className="mt-2 px-4">
+                    <h3 className="text-sm font-bold text-white">{selectedMedia.title}</h3>
+                    <p className="text-xs text-gray-300">{selectedMedia.description}</p>
+                  </div>
                 </div>
-              ) : (
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                  <img
-                    src={selectedMedia.src}
-                    alt={selectedMedia.title}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              )}
-              <div className="mt-2">
-                <h3 className="text-sm font-bold text-white">{selectedMedia.title}</h3>
-                <p className="text-xs text-gray-300">{selectedMedia.description}</p>
               </div>
             </div>
           </div>
         )}
-
-
       </div>
     </div>
   );
