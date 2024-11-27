@@ -75,14 +75,16 @@ const videos = [
     title: "2024.5.5 BLACK SAFARI IN ORIGIN",
     description: "2024.5.5 BLACK SAFARI IN ORIGIN",
     duration: "1:51",
-    src: "/videos/origin-20240505/1.mp4"
+    src: "/videos/origin-20240505/1.mp4",
+    poster: "/videos/origin-20240505/1-thumbnail.jpg"
   },
   {
     id: 2,
     title: "2024.5.5 BLACK SAFARI IN ORIGIN",
     description: "2024.5.5 BLACK SAFARI IN ORIGIN",
     duration: "0:47",
-    src: "/videos/origin-20240505/2.mp4"
+    src: "/videos/origin-20240505/2.mp4",
+    poster: "/videos/origin-20240505/1-thumbnail.jpg"
   }
 ];
 
@@ -138,26 +140,15 @@ const VideoCard = ({ video, onClick }) => {
 
   return (
     <div
-      ref={videoRef}
-      className="group relative cursor-pointer aspect-square bg-gray-900"
+      className="group relative cursor-pointer aspect-square"
       onClick={onClick}
     >
       <div className="w-full h-full rounded-md overflow-hidden">
-        {thumbnail ? (
-          <img
-            src={thumbnail}
-            alt={video.title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            onLoad={() => setIsLoading(false)}
-            onError={() => setHasError(true)}
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-900 flex items-center justify-center">
-            <div className="w-8 h-8 bg-black/50 rounded-full flex items-center justify-center">
-              <Play className="text-white w-4 h-4" />
-            </div>
-          </div>
-        )}
+        <img
+          src={video.poster || '/default-video-thumbnail.jpg'} // 使用預設的縮圖
+          alt={video.title}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="w-8 h-8 bg-black/50 rounded-full flex items-center justify-center">
             <Play className="text-white w-4 h-4" />
