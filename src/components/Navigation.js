@@ -4,7 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Menu, ExternalLink } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translations } from '@/locales/content';
+
 const Navigation = () => {
+  const { language } = useLanguage();
+  const t = translations[language].nav; // 取得當前語言的導航翻譯
+
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,26 +33,26 @@ const Navigation = () => {
   const menuItems = [
     {
       id: 1,
-      title: 'Event Introduction',
+      title: t.activities,
       subItems: [
         { id: 'intro-1', title: 'Introduction', path: '/activities/intro/content' }
       ]
     },
     {
       id: 2,
-      title: 'Ticketing Info',
+      title: t.ticketing,
       externalLink: 'https://bit.ly/BS1221'
     },
     {
       id: 3,
-      title: 'Hosting Date',
+      title: t.eventDates,
       subItems: [
         { id: 'date-1', title: '2024.12.21（SAT）BLACK SAFARI in EVOLUTION', path: '/activities/dates/evolution' }
       ]
     },
     {
       id: 4,
-      title: 'Event Review',
+      title: t.eventReview,
       subItems: [
         { id: 'event-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/events/origin' },
         { id: 'event-2', title: '2024.10.25 台北無心戒酒會的合作活動', path: '/activities/events/collaboration1' },
@@ -56,7 +62,7 @@ const Navigation = () => {
     },
     {
       id: 5,
-      title: 'BLACK SAFARI Logo Introduction',
+      title: t.logoIntro,
       subItems: [
         { id: 'logo-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/logo/origin' },
         { id: 'logo-2', title: '2024.12.21（SAT）BLACK SAFARI in EVOLUTION', path: '/activities/logo/evolution' }
@@ -64,7 +70,7 @@ const Navigation = () => {
     },
     {
       id: 6,
-      title: 'Partners',
+      title: t.partners,
       subItems: [
         { 
           id: 'partner-1', 
@@ -115,7 +121,7 @@ const Navigation = () => {
     },
     {
       id: 7,
-      title: 'Customer Service',
+      title: t.customerService,
       path: '/activities/service'
     }
   ];

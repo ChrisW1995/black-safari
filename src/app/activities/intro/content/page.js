@@ -1,98 +1,121 @@
 export default function IntroContent() {
   return (
     <div className="p-8 md:p-12 min-h-screen">
-      <div className="bg-white/0 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+      <div className="bg-black/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
         <div className="max-w-7xl mx-auto space-y-8">
-          {/* 主視覺圖片 */}
+          {/* Main Visual */}
           <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
-            <img 
+            {/* <img 
               src="/api/placeholder/1920/1080" 
               alt="BLACK SAFARI Event"
               className="w-full h-full object-cover"
-            />
+            /> */}
           </div>
 
-          {/* 活動標題和簡介 */}
+          {/* Title and Introduction */}
           <div className="space-y-4">
-            <h3 className="text-3xl font-bold text-white-800">BLACK SAFARI 2024</h3>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              BLACK SAFARI 是一個結合運動、娛樂和社交的創新活動平台。我們致力於打造一個充滿活力和創意的社群，
-              讓每個參與者都能在這裡找到屬於自己的精彩時刻。
+            <h3 className="text-3xl font-bold text-white">BLACK SAFARI 2024</h3>
+            <p className="text-lg text-gray-300 leading-relaxed">
+              Established in Tokyo's iconic Shinjuku 2-chome gay district for Golden Week 2024, 
+              BLACK SAFARI represents a revolutionary party event brand that celebrates diversity, 
+              expression, and freedom. Join us on May 5, 2024 (SUN) for an unforgettable experience.
             </p>
           </div>
 
-          {/* 活動特色 */}
+          {/* Core Values */}
           <div className="space-y-6">
-            <h4 className="text-2xl font-semibold text-white-800">活動特色</h4>
+            <h4 className="text-2xl font-semibold text-white">LGBTQ Rainbow Values</h4>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h5 className="text-xl font-semibold text-gray-800 mb-3">專業運動課程</h5>
-                <p className="text-gray-600">
-                  由專業教練帶領，提供多樣化的運動課程，適合不同程度的參與者。
+              <div className="bg-red-600/90 p-6 rounded-lg shadow-sm border border-red-400">
+                <h5 className="text-xl font-semibold text-white mb-3">Red: Sex</h5>
+                <p className="text-gray-100">
+                  Abolishing unjust laws; sexual rights are human rights
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h5 className="text-xl font-semibold text-gray-800 mb-3">社交互動</h5>
-                <p className="text-gray-600">
-                  創造輕鬆愉快的社交環境，讓參與者能夠在運動中建立新的友誼。
+              <div className="bg-orange-500/90 p-6 rounded-lg shadow-sm border border-orange-400">
+                <h5 className="text-xl font-semibold text-white mb-3">Orange: Power</h5>
+                <p className="text-gray-100">
+                  A collective display; together, we are power
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h5 className="text-xl font-semibold text-gray-800 mb-3">品牌合作</h5>
-                <p className="text-gray-600">
-                  與知名運動品牌合作，提供優質的運動裝備和專業建議。
+              <div className="bg-yellow-500/90 p-6 rounded-lg shadow-sm border border-yellow-400">
+                <h5 className="text-xl font-semibold text-white mb-3">Yellow: Hope</h5>
+                <p className="text-gray-100">
+                  Moving forward bravely to sow the seeds of hope
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h5 className="text-xl font-semibold text-gray-800 mb-3">特別活動</h5>
-                <p className="text-gray-600">
-                  定期舉辦特別活動，包括戶外探險、主題派對等精彩內容。
+              <div className="bg-green-600/90 p-6 rounded-lg shadow-sm border border-green-400">
+                <h5 className="text-xl font-semibold text-white mb-3">Green: Nature</h5>
+                <p className="text-gray-100">
+                  Embracing differences and expressing true nature authentically
+                </p>
+              </div>
+              <div className="bg-blue-600/90 p-6 rounded-lg shadow-sm border border-blue-400">
+                <h5 className="text-xl font-semibold text-white mb-3">Blue: Freedom</h5>
+                <p className="text-gray-100">
+                  Celebrating autonomy and diversity; liberating bodily freedom
+                </p>
+              </div>
+              <div className="bg-purple-600/90 p-6 rounded-lg shadow-sm border border-purple-400">
+                <h5 className="text-xl font-semibold text-white mb-3">Purple: Art</h5>
+                <p className="text-gray-100">
+                  Living authentically and creating vibrant art
                 </p>
               </div>
             </div>
           </div>
 
-          {/* 活動資訊 */}
+          {/* Event Description */}
           <div className="space-y-6">
-            <h4 className="text-2xl font-semibold text-gray-800">活動資訊</h4>
-            <div className="bg-gray-50 p-6 rounded-lg space-y-4">
-              <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">活動地點</div>
-                <div className="text-gray-600">台北市信義區信義路五段7號</div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">活動時間</div>
-                <div className="text-gray-600">每週六、日 14:00-18:00</div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">參加對象</div>
-                <div className="text-gray-600">對運動有興趣的所有人士</div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">費用</div>
-                <div className="text-gray-600">依據不同課程和活動方案而定</div>
-              </div>
+            <h4 className="text-2xl font-semibold text-white">About The Event</h4>
+            <div className="bg-gray-800/90 p-6 rounded-lg">
+              <p className="text-gray-300 leading-relaxed">
+                The event incorporates the theme of SAFARI's 27 animals, symbolizing its dedication to the LGBTQ community 
+                and its mission to create a space where people from all backgrounds can connect, celebrate, and revel in 
+                the festive atmosphere. The party's music lineup focuses on three primary genres: Vocal Circuit House, 
+                Tribal Circuit House, and Dark Circuit House. Beyond the music, BLACK SAFARI offers a range of distinctive 
+                performances, including the brand's unique stage drama GOGO show, erotic shows featuring adult film actors, 
+                and Japan's one-of-a-kind naked bath towel flag performance, all designed to immerse guests in an atmosphere 
+                of passion and excitement. Additionally, BLACK SAFARI has partnered with globally renowned sports brands Nike 
+                and Under Armour to create exclusive fitness apparel. Plans are underway for future collaborations with Adidas 
+                and other sports brands. Customers interested in these products are welcome to contact us for further inquiries.
+              </p>
             </div>
           </div>
 
-          {/* 聯繫方式 */}
-          <div className="space-y-6">
-            <h4 className="text-2xl font-semibold text-gray-800">聯繫我們</h4>
-            <div className="bg-gray-50 p-6 rounded-lg space-y-4">
+          {/* Event Information */}
+          {/* <div className="space-y-6">
+            <h4 className="text-2xl font-semibold text-white">Event Details</h4>
+            <div className="bg-gray-800/90 p-6 rounded-lg space-y-4">
               <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">電子郵件</div>
-                <div className="text-gray-600">contact@blacksafari.com</div>
+                <div className="w-32 font-semibold text-gray-300">Location</div>
+                <div className="text-gray-300">Shinjuku 2-chome, Tokyo</div>
               </div>
               <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">電話</div>
-                <div className="text-gray-600">(02) 2345-6789</div>
+                <div className="w-32 font-semibold text-gray-300">Date</div>
+                <div className="text-gray-300">May 5, 2024 (SUN) - Golden Week</div>
               </div>
               <div className="flex gap-4">
-                <div className="w-32 font-semibold text-gray-700">社群媒體</div>
-                <div className="text-gray-600">Instagram: @blacksafari.tw</div>
+                <div className="w-32 font-semibold text-gray-300">Who Can Join</div>
+                <div className="text-gray-300">Open to all who celebrate diversity and expression</div>
               </div>
             </div>
-          </div>
+          </div> */}
+
+          {/* Contact Information */}
+          {/* <div className="space-y-6">
+            <h4 className="text-2xl font-semibold text-white">Contact Us</h4>
+            <div className="bg-gray-800/90 p-6 rounded-lg space-y-4">
+              <div className="flex gap-4">
+                <div className="w-32 font-semibold text-gray-300">Email</div>
+                <div className="text-gray-300">contact@blacksafari.com</div>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-32 font-semibold text-gray-300">Social Media</div>
+                <div className="text-gray-300">Instagram: @blacksafari.jp</div>
+              </div>
+            </div>
+          </div> */}
         </div>
       </div>
     </div>

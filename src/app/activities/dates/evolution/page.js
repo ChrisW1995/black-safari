@@ -1,12 +1,19 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translations } from '@/locales/content';
+
 export default function DateEvolutionPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentPosterIndex, setCurrentPosterIndex] = useState(0);
+
+  const { language } = useLanguage();
+  const t = translations[language].dateEvolution; // 取得當前語言的導航翻譯
+
 
   // 處理觸控滑動 - 通用函數
   const handleTouchStart = (e) => {
@@ -227,21 +234,21 @@ export default function DateEvolutionPage() {
             {/* Event Description */}
             <div className="bg-white/10 p-4 md:p-6 rounded-lg space-y-4">
               <h2 className="text-xl md:text-2xl font-semibold">2024.12.21(SAT) BLACK SAFARI IN EVOLUTION</h2>
-              <p className="text-gray-200">For the last show of 2024, we have the best show yet! This time, there will be 6 shows!</p>
+              <p className="text-gray-200">{t.phase1}</p>
               
               <div className="space-y-4 mt-4">
                 <div>
-                  <h3 className="text-lg md:text-xl font-semibold">DJ Red and White Battle SHOW</h3>
-                  <p className="text-gray-200">Six top DJs will be divided into red and white groups to battle it out with three different sounds!</p>
-                  <p className="text-gray-300">[Theme] Vocal Circuit House, Tribal Circuit House, Dark Circuit House</p>
+                  <h3 className="text-lg md:text-xl font-semibold">{t.DJTitle}</h3>
+                  <p className="text-gray-200">{t.DJContent}</p>
+                  <p className="text-gray-300">[{t.theme}] Vocal Circuit House, Tribal Circuit House, Dark Circuit House</p>
                 </div>
 
                 <div className="space-y-4">
-                  {['☆ GOGO has evolved! A new GOGO SHOW is here! On the enchanted floor, GOGOs will fuse their souls into spirit and phantom Beasts, and appear in the form of transformed warriors!',
-                    '☆ GOGO vs. GOGO Dance Battle SHOW!',
-                    '☆ Erotic Bed SHOW!',
-                    '☆ Taipei Pride Parade (Taipei Ximending International Cultural Festival) GOGO Dance SHOW!',
-                    '☆ Erotic GOGO SHOW! From Underwear to stripping them completely: Flag SHOW!'
+                  {[t.starPhase1,
+                    t.starPhase2,
+                    t.starPhase3,
+                    t.starPhase4,
+                    t.starPhase5,
                   ].map((show, index) => (
                     <div key={index} className="border-l-2 border-gray-500 pl-4">
                       <p className="text-gray-200">{show}</p>
@@ -252,20 +259,24 @@ export default function DateEvolutionPage() {
                 {/* Cast Information */}
                 <div className="space-y-6 mt-6">
                   <div>
-                    <h3 className="text-lg md:text-xl font-semibold mb-3">DJs</h3>
+                    <h3 className="text-lg md:text-xl font-semibold mb-3">{t.DJInfoTitle}</h3>
                     <div className="space-y-2">
-                      <p className="text-gray-200">Red group: SHINKAWA, DAI, KAZbou</p>
-                      <p className="text-gray-200">White group: CHU*, YUME, TOMO</p>
+                      <p className="text-gray-200">{t.redGroup} SHINKAWA, DAI, KAZbou</p>
+                      <p className="text-gray-200">{t.whiteGroup} CHU*, YUME, TOMO</p>
                       <p className="text-gray-200">TAIWAN SPECIAL DJ: KAI</p>
                     </div>
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold mb-3">GOGO BOY CAST</h3>
                     <div className="space-y-2">
-                      <p className="text-gray-200">Spirit Beast Team:</p>
-                      <p className="text-gray-300">Nine Tails/GLAY, Kirin/KO, Blue Dragon/SUSUMU, White Tiger/SHINTARO, Phoenix/DD, Black Tortoise/KO-SK</p>
-                      <p className="text-gray-200 mt-2">Phantom Beast Team:</p>
-                      <p className="text-gray-300">Dragon Bahamut/TEN, Flaming Bull APIS/SAI, Unicorn/YUHI, Deer of Keruneia/RICO, Sheep/HIROYA, Mountain Goat/TEZRO</p>
+                      <p className="text-gray-200">{t.spiritBeastTitle}</p>
+                      <p className="text-gray-300">{t.spiritBeastContent}</p>
+                      <p className="text-gray-200 mt-2">{t.phantomBeastTitle}</p>
+                      <p className="text-gray-300">{t.phantomBeastContent}</p>
+                      <p className="text-gray-200 mt-2">VJ: INASE</p>
+                      <p className="text-gray-200 mt-2">BLACK SAFARI BOYS: OKUTO, NARIO</p>
+                      <p className="text-gray-200 mt-2">PHOTOGRAPHER: CHAN</p>
+                      <p className="text-gray-200 mt-2">VIDEOGRAPHPHER: Megumi</p>
                     </div>
                   </div>
                 </div>
@@ -274,48 +285,42 @@ export default function DateEvolutionPage() {
 
             {/* 時間地點 */}
             <div className="bg-white/10 p-4 md:p-6 rounded-lg">
-              <h2 className="text-lg md:text-xl font-semibold mb-3">Time</h2>
+              <h2 className="text-lg md:text-xl font-semibold mb-3">{t.timeTitle}</h2>
               <div className="space-y-2">
-                <p>Date&Time: 2024.12.21（SAT）21:00</p>
+                <p>{t.timeContent}</p>
               </div>
             </div>
 
             {/* 票務資訊 */}
             <div className="bg-white/10 p-4 md:p-6 rounded-lg">
               <h2 className="text-lg md:text-xl font-semibold mb-4">Ticket Information</h2>
-              
-              {/* Sales Period */}
-              <div className="mb-6">
-                <h3 className="text-base md:text-lg font-medium mb-2">Sales Period</h3>
-                <p className="text-gray-200">11/22 (FRI) - 12/14 (SAT)</p>
-              </div>
 
               {/* Pre-sale Tickets */}
               <div className="space-y-4">
                 <div className="border-l-2 border-blue-500 pl-4">
-                  <h4 className="font-medium">Early Bird Ticket</h4>
-                  <p className="text-gray-200">3,000 yen/1D [Priority Admission]</p>
+                  <h4 className="font-medium">{t.earlyBirdTitle}</h4>
+                  <p className="text-gray-200">{t.earlyBirdContent}</p>
                 </div>
 
                 <div className="border-l-2 border-blue-500 pl-4">
-                  <h4 className="font-medium">BLACK SAFARI & NIKE collaboration costumes</h4>
-                  <p className="text-gray-200">3,000 yen/1D</p>
+                  <h4 className="font-medium">{t.collabCostumesTitle}</h4>
+                  <p className="text-gray-200">{t.collabCostumesContent}</p>
                 </div>
 
                 <div className="border-l-2 border-green-500 pl-4">
-                  <h4 className="font-medium">VIP ticket</h4>
-                  <p className="text-gray-200">6,500 yen/1D [Priority admission, includes Christmas dinner box with your favorite cast member]</p>
+                  <h4 className="font-medium">{t.VIPTitle}</h4>
+                  <p className="text-gray-200">{t.VIPContent}</p>
                 </div>
               </div>
 
               {/* Door Tickets */}
               <div className="mt-6">
-                <h3 className="text-base md:text-lg font-medium mb-3">Ticket prices on the day of the event</h3>
+                <h3 className="text-base md:text-lg font-medium mb-3">{t.ticketDayTitle}</h3>
                 <div className="space-y-3">
-                  <p>Out-of-prefecture & overseas discount: 3,200 yen/1D (*Proof of current address)</p>
-                  <p>AiiRO CAFE&ALAMAS CAFE Discount: 3,200 yen/1D</p>
-                  <p>9monsters: 3,500 yen/1D</p>
-                  <p>DOOR: 4,000 yen/1D</p>
+                  <p>{t.ticketDayContent1}</p>
+                  <p>{t.ticketDayContent2}</p>
+                  <p>{t.ticketDayContent3}</p>
+                  <p>{t.ticketDayContent4}</p>
                 </div>
               </div>
 
