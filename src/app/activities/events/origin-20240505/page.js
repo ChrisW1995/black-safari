@@ -6,9 +6,14 @@ import { X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 const useVideoThumbnail = (videoUrl, seekTime = 1) => {
   const [thumbnail, setThumbnail] = useState('');
   const videoRef = useRef(null);
-  const canvasRef = useRef(document.createElement('canvas'));
+  const canvasRef = useRef(null);
 
   useEffect(() => {
+    // 將 canvas 的創建移到 useEffect 中
+    if (!canvasRef.current) {
+      canvasRef.current = document.createElement('canvas');
+    }
+
     const generateThumbnail = async () => {
       try {
         const video = videoRef.current;
@@ -33,12 +38,16 @@ const useVideoThumbnail = (videoUrl, seekTime = 1) => {
       }
     };
 
-    const video = document.createElement('video');
-    videoRef.current = video;
+    // 同樣將 video 元素的創建移到 useEffect 中
+    if (!videoRef.current) {
+      videoRef.current = document.createElement('video');
+    }
     generateThumbnail();
 
     return () => {
-      video.src = '';
+      if (videoRef.current) {
+        videoRef.current.src = '';
+      }
     };
   }, [videoUrl, seekTime]);
 
@@ -199,7 +208,7 @@ export default function PhotoGallery() {
 
         {/* Videos Section */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+          <h2 className="text-2xl font-semibold text-white flex items-center gap-2">
             <Play className="w-5 h-5" /> Event Videos
           </h2>
           <div className="grid grid-cols-2 gap-4 bg-gray-900/0 backdrop-blur-sm p-4 rounded-lg">
@@ -211,7 +220,7 @@ export default function PhotoGallery() {
 
         {/* Photos Section */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-white">Event Photos ({photos.length})</h2>
+          <h2 className="text-2xl font-semibold text-white">Event Photos ({photos.length})</h2>
           <GridContainer>
             {getCurrentPhotos(currentPhotoPage).map((photo, index) => (
               <MediaCard key={photo?.id || index} item={photo} type="photo" />
