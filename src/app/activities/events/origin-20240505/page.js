@@ -92,52 +92,6 @@ const GRID_SIZE = 16;
 
 // 視頻卡片元件
 const VideoCard = ({ video, onClick }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-  const thumbnail = useVideoThumbnail(video.src);
-  const videoRef = useRef();
-
-  // 備用縮圖生成方法
-  useEffect(() => {
-    if (!thumbnail) {
-      const videoElement = document.createElement('video');
-      videoElement.crossOrigin = "anonymous";
-      videoElement.src = video.src;
-      videoElement.preload = "metadata";
-
-      const generateFallbackThumbnail = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = videoElement.videoWidth || 300;
-        canvas.height = videoElement.videoHeight || 200;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // 添加播放圖標到縮圖中
-        ctx.fillStyle = '#ffffff';
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        ctx.beginPath();
-        ctx.moveTo(centerX - 20, centerY - 25);
-        ctx.lineTo(centerX + 20, centerY);
-        ctx.lineTo(centerX - 20, centerY + 25);
-        ctx.closePath();
-        ctx.fill();
-
-        // 設置為預設縮圖
-        videoRef.current.style.backgroundImage = `url(${canvas.toDataURL()})`;
-        videoRef.current.style.backgroundSize = 'cover';
-        videoRef.current.style.backgroundPosition = 'center';
-      };
-
-      videoElement.onloadeddata = generateFallbackThumbnail;
-      videoElement.onerror = () => {
-        setHasError(true);
-        setIsLoading(false);
-      };
-    }
-  }, [thumbnail, video.src]);
-
   return (
     <div
       className="group relative cursor-pointer aspect-square"
@@ -358,81 +312,84 @@ const navigateMedia = useCallback((direction) => {
 
         {/* Modal for enlarged view */}
         {selectedMedia && (
-          <div className="fixed inset-0 bg-black/95 z-50">
-            {/* Close button */}
-            <button
-              onClick={() => {
-                setSelectedMedia(null);
-                setMediaType(null);
-              }}
-              className="absolute top-4 right-4 text-white p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors z-50"
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
+  <div className="fixed inset-0 bg-black/95 z-50">
+    <button
+      onClick={() => {
+        setSelectedMedia(null);
+        setMediaType(null);
+      }}
+      className="absolute top-7 right-4 text-white p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors z-50"
+      aria-label="Close"
+    >
+      <X size={20} />
+    </button>
 
-            {/* Main content container with padding for navigation */}
-            <div className="absolute inset-0 flex items-center justify-center px-12 py-4">
-              {/* Photo navigation buttons */}
-              {mediaType === 'photo' && (
-                <>
-                  <button
-                    onClick={() => navigateMedia('prev')}
-                    className="absolute left-2 z-50 h-12 w-12 flex items-center justify-center text-white rounded-full bg-black/50 hover:bg-black/70 transition-colors touch-manipulation"
-                    aria-label="Previous photo"
-                    disabled={isNavigating}
-                  >
-                    <ChevronLeft size={24} />
-                  </button>
-                  <button
-                    onClick={() => navigateMedia('next')}
-                    className="absolute right-2 z-50 h-12 w-12 flex items-center justify-center text-white rounded-full bg-black/50 hover:bg-black/70 transition-colors touch-manipulation"
-                    aria-label="Next photo"
-                    disabled={isNavigating}
-                  >
-                    <ChevronRight size={24} />
-                  </button>
-                </>
-              )}
+    <div className="absolute inset-0 flex items-center justify-center">
+      {mediaType === 'photo' && (
+        <>
+          <button
+            onClick={() => navigateMedia('prev')}
+            className="absolute left-2 z-50 h-12 w-12 flex items-center justify-center text-white rounded-full bg-black/50 hover:bg-black/70 transition-colors touch-manipulation"
+            aria-label="Previous photo"
+            disabled={isNavigating}
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={() => navigateMedia('next')}
+            className="absolute right-2 z-50 h-12 w-12 flex items-center justify-center text-white rounded-full bg-black/50 hover:bg-black/70 transition-colors touch-manipulation"
+            aria-label="Next photo"
+            disabled={isNavigating}
+          >
+            <ChevronRight size={24} />
+          </button>
+        </>
+      )}
 
-              {/* Content wrapper */}
-              <div className="w-full h-full flex flex-col items-center justify-center">
-                <div className="w-full max-w-4xl">
-                {mediaType === 'video' ? (
-                  <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-                    <VideoPlayer
-                      src={selectedMedia.src}
-                      onLoadStart={() => setIsVideoLoading(true)}
-                      onLoadedData={() => setIsVideoLoading(false)}
-                    />
-                    {isVideoLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                    <div className="relative bg-black rounded-lg overflow-hidden">
-                      <img
-                        src={selectedMedia.src}
-                        alt={selectedMedia.title}
-                        className="w-full h-auto max-h-[85vh] object-contain mx-auto"
-                        loading="eager"
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-black/50 backdrop-blur-sm text-white text-center text-sm">
-                        {`${photos.findIndex(p => p.id === selectedMedia.id) + 1} / ${photos.length}`}
-                      </div>
-                    </div>
-                  )}
-                  <div className="mt-2 px-4">
-                    <h3 className="text-sm font-bold text-white">{selectedMedia.title}</h3>
-                    <p className="text-xs text-gray-300">{selectedMedia.description}</p>
-                  </div>
+      <div className="w-full h-full max-h-screen flex flex-col items-center justify-center px-4 py-16">
+        <div className="w-full max-w-4xl flex flex-col items-center space-y-4">
+          {mediaType === 'video' ? (
+            <div className="relative aspect-video bg-black rounded-lg overflow-hidden w-full">
+              <video
+                src={selectedMedia.src}
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full h-full"
+                onLoadStart={() => setIsVideoLoading(true)}
+                onLoadedData={() => setIsVideoLoading(false)}
+              />
+              {isVideoLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
                 </div>
-              </div>
+              )}
             </div>
+          ) : (
+            <>
+              <div className="relative bg-black rounded-lg overflow-hidden">
+                <img
+                  src={selectedMedia.src}
+                  alt={selectedMedia.title}
+                  className="w-full h-auto max-h-[75vh] object-contain mx-auto"
+                  loading="eager"
+                />
+              </div>
+              {/* 計數器移到圖片下方 */}
+              <div className="text-white text-sm">
+                {`${photos.findIndex(p => p.id === selectedMedia.id) + 1} / ${photos.length}`}
+              </div>
+            </>
+          )}
+          <div className="w-full text-center">
+            <h3 className="text-sm font-bold text-white">{selectedMedia.title}</h3>
+            <p className="text-xs text-gray-300">{selectedMedia.description}</p>
           </div>
-        )}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
