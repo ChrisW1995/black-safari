@@ -96,7 +96,7 @@ export default function HomePage() {
     <div className="min-h-screen text-white">
       {showVideo && <VideoIntro onClose={handleVideoEnd} />}
       
-      <div className="max-w-4xl mx-auto py-8">
+      <div className="max-w-4xl mx-auto py-12">
         <h1 className="text-4xl font-bold text-white-800 mb-6 text-center">BLACK SAFARI EVENTS</h1>
         <div className="mb-12">
           <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden">

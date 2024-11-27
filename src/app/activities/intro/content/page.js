@@ -1,7 +1,7 @@
 export default function IntroContent() {
   return (
     <div className="p-8 md:p-12 min-h-screen">
-      <div className="bg-black/80 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+      <div className="bg-black/0 backdrop-blur-sm rounded-lg p-4 shadow-lg">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Main Visual */}
           <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
