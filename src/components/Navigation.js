@@ -64,7 +64,7 @@ const Navigation = () => {
       id: 5,
       title: t.logoIntro,
       subItems: [
-        { id: 'logo-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/logo/origin' },
+        { id: 'logo-1', title: '2024.5.5 BLACK SAFARI IN ORIGIN', path: '/activities/logo/origin-20240505' },
         { id: 'logo-2', title: '2024.12.21（SAT）BLACK SAFARI in EVOLUTION', path: '/activities/logo/evolution' }
       ]
     },
