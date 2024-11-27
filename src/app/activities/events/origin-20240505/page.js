@@ -137,33 +137,12 @@ const VideoCard = ({ video, onClick }) => {
 };
 
 const VideoPlayer = ({ src, onLoadStart, onLoadedData }) => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // 處理播放錯誤
-    const handleError = (error) => {
-      console.error('Video playback error:', error);
-      video.load(); // 重新加載視頻
-    };
-
-    video.addEventListener('error', handleError);
-
-    return () => {
-      video.removeEventListener('error', handleError);
-    };
-  }, []);
-
   return (
     <video
-      ref={videoRef}
       className="w-full h-full"
-      playsInline
       controls
+      playsInline
       preload="metadata"
-      controlsList="nodownload"
       onLoadStart={onLoadStart}
       onLoadedData={onLoadedData}
     >
@@ -447,18 +426,18 @@ const navigateMedia = useCallback((direction) => {
       <div className="w-full h-full max-h-screen flex flex-col items-center justify-center px-4 py-16">
         <div className="w-full max-w-4xl flex flex-col items-center space-y-4">
           {mediaType === 'video' ? (
-              <div className="relative aspect-video bg-black rounded-lg overflow-hidden w-full">
-              <VideoPlayer
-                src={selectedMedia.src}
-                onLoadStart={() => setIsVideoLoading(true)}
-                onLoadedData={() => setIsVideoLoading(false)}
-              />
-              {isVideoLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
-                </div>
-              )}
-            </div>
+            <div className="relative aspect-video bg-black rounded-lg overflow-hidden w-full">
+            <VideoPlayer
+              src={selectedMedia.src}
+              onLoadStart={() => setIsVideoLoading(true)}
+              onLoadedData={() => setIsVideoLoading(false)}
+            />
+            {isVideoLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white"></div>
+              </div>
+            )}
+          </div>
           ) : (
             <>
               <div className="relative bg-black rounded-lg overflow-hidden">
@@ -469,7 +448,6 @@ const navigateMedia = useCallback((direction) => {
                   loading="eager"
                 />
               </div>
-              {/* 計數器移到圖片下方 */}
               <div className="text-white text-sm">
                 {`${photos.findIndex(p => p.id === selectedMedia.id) + 1} / ${photos.length}`}
               </div>
