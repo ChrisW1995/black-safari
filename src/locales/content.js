@@ -7,7 +7,8 @@ export const translations = {
       eventDates: 'Event Dates',
       eventReview: 'Event Review',
       logoIntro: 'LOGO Introduction',
-      partners: 'Cooperative brand underwear and Tokyo Shinjuku 2-chome Clubs and Gay Bars',
+      co_underwear: 'Cooperative brand underwear',
+      co_bars:'Tokyo Shinjuku 2-chome Clubs and Gay Bars',
       customerService: 'Customer Service'
     },
     // DateEvolution 頁面翻譯
@@ -56,7 +57,8 @@ export const translations = {
       eventDates: 'イベント開催予定日',
       eventReview: 'イベントアーカイブ',
       logoIntro: '過去のイラスト一覧',
-      partners: 'イベントパートナー及びスポンサー',
+      co_underwear: 'コラボアンダーウェア',
+      co_bars:'超人気な新宿二丁目BAR',
       customerService: 'イベント関連グッツに関する問い合わせ'
     },
     // DateEvolution 頁面翻譯

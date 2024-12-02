@@ -67,7 +67,7 @@ const Navigation = () => {
     },
     {
       id: 6,
-      title: t.partners,
+      title: t.co_underwear,
       subItems: [
         { 
           id: 'partner-1', 
@@ -76,41 +76,16 @@ const Navigation = () => {
         },
         { 
           id: 'partner-2', 
-          title: '9monsters', 
-          externalLink: 'https://ninemonsters.com/'
+          title: 'EGDE', 
+          externalLink: 'https://www.rakuten.co.jp/auc-assy-underwear/?fbclid=PAZXh0bgNhZW0CMTEAAaY9zQBbfTli1LfQeXzBrrwwGumP7iRB9yrIsIPZe01Og1xd_eRHeGtjkRg_aem_QGADxJq1XY2S8L3L1G44gA'
         },
         { 
           id: 'partner-3', 
-          title: 'RainbowEvents', 
-          externalLink: 'https://www.rbwevents.com/'
-        },
-        {
-          id: 'partner-6',
-          title: 'AiSOTOPE',
-          externalLink: 'https://aisotope-lounge.net/'
-        },
-        {
-          id: 'partner-7',  
-          title: 'AiiRO CAFE',
-          externalLink: 'https://aliving.net/'
-        },
-        {
-          id: 'partner-8',
-          title: 'ALAMAS CAFE',  
-          externalLink: 'https://alamas-cafe.net/'
-        },
-        {
-          id: 'partner-9',
-          title: 'absorb',  
-          externalLink: 'https://absorb.tokyo/'
-        },
-        { 
-          id: 'partner-4', 
           title: 'BLACK SAFARI & NIKE Collaborative gym wear', 
           path: '/activities/partners/nike' 
         },
         { 
-          id: 'partner-5', 
+          id: 'partner-4', 
           title: 'BLACK SAFARI & Under Armour Collaborative gym wear', 
           path: '/activities/partners/ua' 
         }
@@ -118,6 +93,52 @@ const Navigation = () => {
     },
     {
       id: 7,
+      title: t.co_bars,
+      subItems: [
+        { 
+          id: 'partner-1', 
+          title: '9monsters', 
+          externalLink: 'https://ninemonsters.com/'
+        },
+        { 
+          id: 'partner-2', 
+          title: 'RainbowEvents', 
+          externalLink: 'https://www.rbwevents.com/'
+        },
+        {
+          id: 'partner-3',
+          title: 'AiSOTOPE',
+          externalLink: 'https://aisotope-lounge.net/'
+        },
+        {
+          id: 'partner-4',  
+          title: 'AiiRO CAFE',
+          externalLink: 'https://aliving.net/'
+        },
+        {
+          id: 'partner-5',
+          title: 'ALAMAS CAFE',  
+          externalLink: 'https://alamas-cafe.net/'
+        },
+        {
+          id: 'partner-6',
+          title: 'absorb',  
+          externalLink: 'https://absorb.tokyo/'
+        },
+        {
+          id: 'partner-7',
+          title: 'D-light, Tokyo',  
+          externalLink: 'https://www.instagram.com/d_light_tokyo'
+        },        {
+          id: 'partner-8',
+          title: 'BOILERROOM TOKYO',  
+          externalLink: 'https://www.instagram.com/boilerroomtokyo'
+        }
+      
+      ]
+    },
+    {
+      id: 8,
       title: t.customerService,
       path: '/activities/service'
     }
