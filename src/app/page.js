@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, Volume2, VolumeX } from 'lucide-react';
+import ContactForm from '../components/ContactForm';
+
+
 
 const VideoIntro = ({ onClose }) => {
   const videoRef = React.useRef(null);
