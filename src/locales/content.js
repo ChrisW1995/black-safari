@@ -7,7 +7,7 @@ export const translations = {
       eventDates: 'Event Dates',
       eventReview: 'Event Review',
       logoIntro: 'LOGO Introduction',
-      partners: 'Partners',
+      partners: 'Cooperative brand underwear and Tokyo Shinjuku 2-chome Clubs and Gay Bars',
       customerService: 'Customer Service'
     },
     // DateEvolution 頁面翻譯
